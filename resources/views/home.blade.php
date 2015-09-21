@@ -80,7 +80,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        <img src="img/free.png" width="75">
+                        <img src="img/plane.png" width="60" style="margin: 7px 0;">
                         <h3>Free</h3>
                     </td>
                     <td>

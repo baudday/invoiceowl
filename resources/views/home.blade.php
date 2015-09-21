@@ -17,9 +17,9 @@
     <form action="/email" method="POST" role="form">
         {{ csrf_field() }}
         <div class="input-group">
-            <input name="email" type="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}" required>
+            <input name="email" type="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}" required tabindex="1">
             <span class="input-group-btn">
-                <button type="submit" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-send"></span></button>
+                <button type="submit" class="btn btn-default btn-lg" tabindex="1"><span class="glyphicon glyphicon-send"></span></button>
             </span>
         </div>
     </form>
@@ -44,7 +44,7 @@
                 <h4 class="media-heading">Use one of our free templates</h4>
                 Pick your template and we'll substitute in your logo along
                 with the rest of your information. Don't like our templates?
-                Design your own using our markdown editor!
+                Design your own using our editor!
             </div>
         </div>
 
@@ -89,17 +89,17 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Active Clients</td>
+                    <td>Active clients</td>
                     <td>Up to 5</td>
                     <td class="success"><strong>Unlimited</strong></td>
                 </tr>
                 <tr>
-                    <td>Invoices per month</td>
+                    <td>Invoices / month</td>
                     <td>Up to 5</td>
                     <td class="success"><strong>Unlimited</strong></td>
                 </tr>
                 <tr>
-                    <td>Custom Templates</td>
+                    <td>Custom templates</td>
                     <td>None</td>
                     <td class="success"><strong>Unlimited</strong></td>
                 </tr>
@@ -109,15 +109,10 @@
                     <td class="success"><strong>No</strong></td>
                 </tr>
                 <tr>
-                    <td>Cost / month</td>
+                    <td>Price / month</td>
                     <td><strong>Free</strong></td>
                     <td><strong>$5</strong></td>
                 </tr>
-                {{-- <tr>
-                    <td></td>
-                    <td><button class="btn btn-default">Express Interest</button></td>
-                    <td><button class="btn btn-default">Express Interest</button></td>
-                </tr> --}}
             </tbody>
         </table>
     </div>
@@ -145,14 +140,14 @@
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="contact_email">Email</label>
-                <input name="contact_email" type="email" class="form-control input-lg" id="contact_email" placeholder="Email" value="{{ old('contact_email') }}" required>
+                <input name="contact_email" type="email" class="form-control input-lg" id="contact_email" placeholder="Email" value="{{ old('contact_email') }}" required tabindex="1">
             </div>
 
             <div class="form-group">
                 <label for="">Message</label>
-                <textarea name="message" id="message" class="form-control input-lg" rows="3" value="{{ old('message') }}" required></textarea>
+                <textarea name="message" id="message" class="form-control input-lg" rows="3" value="{{ old('message') }}" required tabindex="1"></textarea>
             </div>
-            <button type="submit" class="btn btn-default btn-lg">Send</button>
+            <button type="submit" class="btn btn-default btn-lg" tabindex="1">Send</button>
         </form>
     </div>
 </div>

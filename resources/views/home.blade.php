@@ -13,6 +13,10 @@
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
+    @elseif ($success)
+    <div class="alert alert-success">
+        {{ $success }}
+    </div>
     @endif
     <form action="/email" method="POST" role="form">
         {{ csrf_field() }}

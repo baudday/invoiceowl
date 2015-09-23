@@ -57,8 +57,7 @@ class SplashController extends Controller
 
     public function thanks(Request $request)
     {
-        $request->session()->flash('success', "Thanks! Please check your inbox for a confirmation email.");
-        return redirect('/');
+        return view('home')->with('success', "Thanks! Please check your inbox for a confirmation email.");
     }
 
     public function contact(Request $request)

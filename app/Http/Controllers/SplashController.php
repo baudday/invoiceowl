@@ -32,8 +32,6 @@ class SplashController extends Controller
             'id'     => getenv('MAILCHIMP_id'),
         ];
 
-        $request->session()->flash('success', "Thanks! Please check your inbox for a confirmation email.");
-
         //url-ify the data for the POST
         $fields_string = '';
         foreach($mcData as $key=>$value) {
@@ -59,7 +57,8 @@ class SplashController extends Controller
 
     public function thanks(Request $request)
     {
-        return view('home');
+        $request->session()->flash('success', "Thanks! Please check your inbox for a confirmation email.");
+        return redirect('/');
     }
 
     public function contact(Request $request)

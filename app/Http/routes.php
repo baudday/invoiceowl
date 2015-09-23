@@ -13,6 +13,7 @@
 
 Route::get('/', 'SplashController@home');
 Route::post('/email', 'SplashController@email');
+Route::get('/thanks', 'SplashController@thanks');
 Route::post('/contact', 'SplashController@contact');
 
 // Authentication routes...

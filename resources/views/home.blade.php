@@ -13,7 +13,7 @@
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
-    @elseif ($success)
+    @elseif (isset($success))
     <div class="alert alert-success">
         {{ $success }}
     </div>

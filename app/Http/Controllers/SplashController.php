@@ -57,7 +57,7 @@ class SplashController extends Controller
 
     public function thanks(Request $request)
     {
-        return view('home')->with('success', "Thanks! Please check your inbox for a confirmation email.");
+        return view('thanks')->with('success', "Thanks! Please check your inbox for a confirmation email.");
     }
 
     public function contact(Request $request)

@@ -3,7 +3,7 @@
 @section('banner-content')
 <div class="col-sm-6 col-sm-offset-3">
     <h1>Send beautiful custom invoices effortlessly.</h1>
-    <h3>Get full access while we work out the kinks!</h3>
+    <h3>Get a free month of Pro when we launch!</h3>
     @if ($errors->first('email'))
     <div class="alert alert-danger">
         {{ $errors->first('email') }}

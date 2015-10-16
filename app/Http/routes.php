@@ -11,6 +11,7 @@
 |
 */
 
+// Static routes
 Route::get('/', 'SplashController@home');
 Route::post('/email', 'SplashController@email');
 Route::get('/thanks', 'SplashController@thanks');
@@ -32,6 +33,21 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
         'uses' => 'AdminController@send',
         'as' => 'contact.send'
     ]);
+});
+
+// Resource routes
+Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
+    Route::get('/', ['as' => 'dashboard', function() {
+      return view('dashboard');
+    }]);
+
+    Route::resource('clients', 'ClientsController');
+      Route::resource('clients.invoices', 'ClientInvoicesController', ['except' => ['index']]);
+      Route::resource('clients.templates', 'ClientTemplatesController', ['only' => ['show']]);
+
+    Route::resource('invoices', 'InvoicesController', ['only' => ['index']]);
+    Route::resource('templates', 'TemplatesController');
+    Route::resource('settings', 'UserSettingsController', ['only' => ['index', 'update']]);
 });
 
 

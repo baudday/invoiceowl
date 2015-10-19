@@ -43,11 +43,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
     Route::resource('clients', 'ClientsController');
       Route::resource('clients.invoices', 'ClientInvoicesController', ['except' => ['index']]);
-      Route::resource('clients.templates', 'ClientTemplatesController', ['only' => ['show']]);
 
     Route::resource('invoices', 'InvoicesController', ['only' => ['index']]);
     Route::resource('templates', 'TemplatesController');
     Route::resource('settings', 'UserSettingsController', ['only' => ['index', 'update']]);
+});
+
+// API Routes
+Route::group(['prefix' => 'api/v1'], function() {
+  Route::group(['middleware' => 'auth'], function() {
+    Route::resource('clients.templates', 'Api\V2\ClientTemplatesController', ['only' => ['show']]);
+    Route::resource('settings', 'Api\V2\UserSettingsController', ['only' => ['update']]);
+  });
 });
 
 

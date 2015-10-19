@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V2;
 
 use Illuminate\Http\Request;
-use Flynsarmy\DbBladeCompiler\Facades\DbView;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Client;
-use App\Template;
+use App\Lib\ImageManipulator;
 
-class ClientTemplatesController extends Controller
+class UserSettingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -50,15 +48,9 @@ class ClientTemplatesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show(Request $request, $client_id, $template_id)
+    public function show($id)
     {
-        $client = Client::findOrFail($client_id);
-        $number = $request->input('number');
-        $description = $request->input('description');
-        $due_date = $request->input('due_date');
-        $user = \Auth::user();
-        $template = Template::findOrFail($template_id);
-        return DbView::make($template)->field('body')->with(compact('client', 'number', 'description', 'due_date', 'user'))->render();
+        //
     }
 
     /**
@@ -81,7 +73,10 @@ class ClientTemplatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Crop and upload the image
+        $manipulator = new ImageManipulator();
+        $img = $manipulator->uploadUserLogo($request->input('logo'));
+        return ['url' => $img['secure_url']];
     }
 
     /**

@@ -18,7 +18,7 @@ class UserSettingsController extends Controller
      */
     public function index()
     {
-        $settings = User::select(['name', 'email', 'phone_number'])->find(\Auth::user()->id);
+        $settings = User::select(['name', 'email', 'phone_number', 'logo'])->find(\Auth::user()->id);
         return view('user_settings/index', compact('settings'));
     }
 
@@ -36,7 +36,7 @@ class UserSettingsController extends Controller
           'email' => 'required|email',
           'phone_number' => 'numeric|digits:10'
         ]);
-        User::find($id)->update($request->only(['name', 'email', 'phone_number']));
+        User::find($id)->update($request->only(['name', 'email', 'phone_number', 'logo']));
         $request->session()->flash('success', 'Your settings have been saved.');
 
         return redirect()->route('dashboard.settings.index');

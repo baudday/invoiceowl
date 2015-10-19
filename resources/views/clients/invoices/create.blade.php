@@ -114,7 +114,7 @@
           <div class="col-xs-12">
             <h3>Preview</h3>
             <hr>
-            <div class="preview"></div>
+            <div class="preview"><h2 class="muted"><small>Select a template from above to preview your invoice.</small></h2></div>
             <hr>
           </div>
         </div>
@@ -138,11 +138,10 @@
 <script type="text/javascript">
   $(function() {
     $('.template').on('click', function() {
-      var href = '/dashboard/clients/{{ $client->id }}/templates/' + $(this).data('template');
+      var href = '/api/v1/clients/{{ $client->id }}/templates/' + $(this).data('template');
       $.ajax({
         url: href,
         data: {
-          'format': 'json',
           'number': $('#number').val(),
           'due_date': $('#due_date').val(),
           'description': $('#description').val()

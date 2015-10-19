@@ -1,0 +1,11 @@
+.logo-img-container {
+  width: 200px;
+  height: 200px; }
+
+#logo_img {
+  width: 200px;
+  height: 200px;
+  border: 5px dashed #ccc;
+  cursor: pointer; }
+
+/*# sourceMappingURL=app.css.map */

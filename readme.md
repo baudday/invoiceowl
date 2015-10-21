@@ -4,6 +4,9 @@
 php artisan migrate
 php artisan db:seed
 php artisan vendor:publish
+php artisan config:publish flynsarmy/db-blade-compiler
+npm install
+gulp
 ```
 
 # Additional env variables required

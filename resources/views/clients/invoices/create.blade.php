@@ -109,31 +109,33 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="form-group">
-          <div class="col-xs-12">
-            <h3>Preview</h3>
-            <hr>
-            <div class="preview"><h2 class="muted"><small>Select a template from above to preview your invoice.</small></h2></div>
-            <hr>
-          </div>
-        </div>
-      </div>
-
-      <input id="template_field" type="hidden" name="template">
-
-      <div class='row'>
-        <div class='form-group'>
-          <div class='col-xs-12'>
-              <button type='submit' class='btn btn-lg btn-default'><span class='glyphicon glyphicon-send'></span> Send</button>
-          </div>
-        </div>
-      </div>
-
-    </form>
-
   </div>
 </div>
+@stop
+
+@section('outside')
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-12">
+      <h3 id="preview_title">Preview</h3>
+      <hr>
+      <div class="preview"><h2 class="muted"><small>Select a template from above to preview your invoice.</small></h2></div>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<input id="template_field" type="hidden" name="template">
+
+<div class='row'>
+  <div class='form-group'>
+    <div class='col-xs-12'>
+        <button type='submit' class='btn btn-lg btn-default'><span class='glyphicon glyphicon-send'></span> Send</button>
+    </div>
+  </div>
+</div>
+
+</form>
 @stop
 
 @section('body-scripts')
@@ -164,6 +166,9 @@
       }).done(function(res) {
         invoice_id = res.invoice_id;
         $('.preview').html(res.body);
+        $('body').animate({
+          scrollTop: ($('#preview_title').offset().top)
+        });
       });
 
       return false;

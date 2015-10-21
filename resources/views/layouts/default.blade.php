@@ -21,6 +21,7 @@
       @yield('content')
     </div>
   </div>
+  @yield('outside')
 </div>
 
 @yield('body-scripts')

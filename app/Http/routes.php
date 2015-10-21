@@ -37,13 +37,14 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
 
 // Resource routes
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
+    // TODO: Clean up this route
     Route::get('/', ['as' => 'dashboard', function() {
       $pastDueInvoices = App\Invoice::with('client')->pastDue()->get();
       return view('dashboard', compact('pastDueInvoices'));
     }]);
 
     Route::resource('clients', 'ClientsController');
-      Route::resource('clients.invoices', 'ClientInvoicesController', ['except' => ['index']]);
+      Route::resource('clients.invoices', 'ClientInvoicesController', ['only' => ['create', 'store', 'update']]);
 
     Route::resource('invoices', 'InvoicesController', ['only' => ['index']]);
     Route::resource('templates', 'TemplatesController');

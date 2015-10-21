@@ -42,6 +42,11 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('\App\Client');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany('\App\Invoice');
+    }
+
     public function isAdmin()
     {
         return $this->is_admin;

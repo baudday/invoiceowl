@@ -23,9 +23,9 @@ class Invoice extends Model
       return $this->belongsTo('\App\Template');
     }
 
-    public function scopeLatest($q, $client_id)
+    public function scopeLatest($q)
     {
-      return $q->where('client_id', $client_id)->orderBy('number', 'desc');
+      return $q->orderBy('number', 'desc');
     }
 
     public function scopePublished($q)

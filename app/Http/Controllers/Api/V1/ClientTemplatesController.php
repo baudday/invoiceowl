@@ -54,8 +54,8 @@ class ClientTemplatesController extends Controller
      */
     public function show(Request $request, $client_id, $template_id)
     {
-        $client = Client::findOrFail($client_id);
-        $invoice = Invoice::firstOrCreate([
+        $client = $this->userClients()->findOrFail($client_id);
+        $invoice = $this->userInvoices()->firstOrCreate([
           'number' => $request->input('number'),
           'user_id' => \Auth::user()->id,
           'client_id' => $client_id

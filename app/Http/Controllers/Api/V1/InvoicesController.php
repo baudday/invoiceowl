@@ -49,7 +49,7 @@ class InvoicesController extends Controller
      */
     public function show($id)
     {
-        $invoice = Invoice::with('client')->findOrFail($id);
+        $invoice = $this->userInvoices()->with('client')->findOrFail($id);
 
         return \Response::make(file_get_contents($invoice->pdf_path), 200, [
           'Content-Type' => 'application/pdf',

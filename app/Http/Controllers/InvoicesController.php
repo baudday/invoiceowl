@@ -18,7 +18,7 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::with('client')->where('user_id', \Auth::user()->id)->published()->unpaid()->orderBy('due_date', 'desc')->get();
+        $invoices = $this->userInvoices()->with('client')->published()->unpaid()->orderBy('due_date', 'desc')->get();
         return view('invoices/index', compact('invoices'));
     }
 }

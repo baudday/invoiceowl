@@ -31,8 +31,8 @@ class ClientInvoicesController extends Controller
      */
     public function create($client_id)
     {
-        $client = Client::findOrFail($client_id);
-        $invoice_number = Invoice::latest($client_id)->published()->first() ? Invoice::latest($client_id)->published()->first()->number+1 : 1;
+        $client = $this->userClients()->findOrFail($client_id);
+        $invoice_number = $this->userClientInvoices($client_id)->latest()->published()->first() ? $this->userClientInvoices($client_id)->latest()->published()->first()->number+1 : 1;
         $templates = Template::available()->get();
         return view('clients.invoices.create', compact('client', 'invoice_number', 'templates'));
     }
@@ -52,7 +52,7 @@ class ClientInvoicesController extends Controller
           'template' => 'required'
         ]);
 
-        $invoice = Invoice::where($request->only('number', 'description', 'due_date') + ['client_id' => $client_id, 'user_id' => \Auth::user()->id])->first();
+        $invoice = $this->userClientInvoices($client_id)->where($request->only('number', 'description', 'due_date'))->first();
         $template = Template::find($invoice->template_id);
         $total = 0;
         foreach ($invoice->lineItems->toArray() as $item) {
@@ -97,7 +97,7 @@ class ClientInvoicesController extends Controller
      */
     public function update(Request $request, $client_id, $invoice_id)
     {
-        $invoice = Client::findOrFail($client_id)->invoices()->findOrFail($invoice_id);
+        $invoice = $this->userClientInvoices($client_id)->findOrFail($invoice_id);
         $invoice->update(array_filter($request->only('number', 'description', 'due_date', 'paid', 'published')));
         return redirect()->back();
     }

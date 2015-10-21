@@ -18,7 +18,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $clients = \Auth::user()->clients()->orderBy('name', 'asc')->get();
+        $clients = $this->userClients()->orderBy('name', 'asc')->get();
         return view('clients/index', compact('clients'));
     }
 
@@ -45,7 +45,7 @@ class ClientsController extends Controller
           'name' => 'required'
         ]);
 
-        $client = Client::create($request->only(['email', 'name']) + ['user_id' => \Auth::user()->id]);
+        $client = $this->userClients()->create($request->only(['email', 'name']));
 
         return redirect()->route('dashboard.clients.show', $client->id);
     }
@@ -58,7 +58,7 @@ class ClientsController extends Controller
      */
     public function show($id)
     {
-        $client = Client::with([
+        $client = $this->userClients()->with([
           'invoices' => function($q) {
             // Show newest invoices first
             $q->orderBy('updated_at', 'desc');
@@ -75,7 +75,7 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::findOrFail($id);
+        $client = $this->userClients()->findOrFail($id);
         return view('clients/edit', compact('client'));
     }
 
@@ -92,7 +92,7 @@ class ClientsController extends Controller
           'email' => 'required|email',
           'name' => 'required'
         ]);
-        Client::findOrFail($id)->update($request->only(['email', 'name']));
+        $this->userClients()->findOrFail($id)->update($request->only(['email', 'name']));
 
         return redirect()->route('dashboard.clients.show', $id);
     }
@@ -105,7 +105,7 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        Client::destroy($id);
+        $this->userClients()->destroy($id);
         return redirect()->route('dashboard.clients.index');
     }
 }

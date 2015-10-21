@@ -120,6 +120,8 @@
         </div>
       </div>
 
+      <input id="template_field" type="hidden" name="template">
+
       <div class='row'>
         <div class='form-group'>
           <div class='col-xs-12'>
@@ -141,7 +143,13 @@
     var invoice_id = 0;
 
     $('.template').on('click', function() {
-      var href = '/api/v1/clients/{{ $client->id }}/templates/' + $(this).data('template');
+      var template_id = $(this).data('template');
+      var href = '/api/v1/clients/{{ $client->id }}/templates/' + template_id;
+
+      $('#template_field').val(template_id);
+      $('.template').find('img').removeClass('selected');
+      $(this).find('img').addClass('selected');
+
       $.ajax({
         url: href,
         data: {

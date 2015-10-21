@@ -58,7 +58,12 @@ class ClientsController extends Controller
      */
     public function show($id)
     {
-        $client = Client::with('invoices')->findOrFail($id);
+        $client = Client::with([
+          'invoices' => function($q) {
+            // Show newest invoices first
+            $q->orderBy('updated_at', 'desc');
+          }
+        ])->findOrFail($id);
         return view('clients/show', compact('client'));
     }
 

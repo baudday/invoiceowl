@@ -45,7 +45,7 @@
       </tbody>
     </table>
     @else
-    <h4>Everything's up to date :)</h4>
+    <h4 style="text-align:center;">Everything's up to date :)</h4>
     @endif
   </div>
 </div>

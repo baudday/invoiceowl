@@ -48,7 +48,8 @@ class ClientInvoicesController extends Controller
         $this->validate($request, [
           'number' => 'required|numeric',
           'due_date' => 'required|date|after:today',
-          'description' => 'required'
+          'description' => 'required',
+          'template' => 'required'
         ]);
 
         $invoice = Invoice::where($request->only('number', 'description', 'due_date') + ['client_id' => $client_id, 'user_id' => \Auth::user()->id])->first();

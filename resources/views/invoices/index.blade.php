@@ -2,6 +2,8 @@
 
 @section('content')
 <h1>Unpaid Invoices</h1>
+<hr>
+@if($invoices->count() > 0)
 <table class='table table-bordered table-hover'>
   <thead>
     <tr>
@@ -40,5 +42,8 @@
     @endforeach
   </tbody>
 </table>
+@else
+<h2 style="text-align:center;">No one owes you anything! :)</h2>
+@endif
 @include('invoices.partials.preview')
 @stop

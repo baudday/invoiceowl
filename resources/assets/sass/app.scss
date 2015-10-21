@@ -1,4 +1,4 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 .logo-img-container {
   width: 200px;
@@ -10,4 +10,21 @@
   height: 200px;
   border: 5px dashed #ccc;
   cursor: pointer;
+}
+
+.template-img-container {
+  width: 154px;
+  height: 200px;
+}
+
+#template_img {
+  width: 154px;
+  height: 200px;
+  border: 5px dashed #ccc;
+  cursor: pointer;
+}
+
+.vcenter {
+  vertical-align: middle !important;
+  text-align: center;
 }

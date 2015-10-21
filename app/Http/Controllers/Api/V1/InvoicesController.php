@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api\V2;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Lib\ImageManipulator;
+use App\Invoice;
 
-class UserSettingsController extends Controller
+class InvoicesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -24,7 +23,7 @@ class UserSettingsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -34,8 +33,8 @@ class UserSettingsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -46,18 +45,23 @@ class UserSettingsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $invoice = Invoice::with('client')->findOrFail($id);
+
+        return \Response::make(file_get_contents($invoice->pdf_path), 200, [
+          'Content-Type' => 'application/pdf',
+          'Content-Disposition' => 'inline; invoice.pdf'
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -67,23 +71,20 @@ class UserSettingsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        // Crop and upload the image
-        $manipulator = new ImageManipulator();
-        $img = $manipulator->uploadUserLogo($request->input('logo'));
-        return ['url' => $img['secure_url']];
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

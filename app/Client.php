@@ -14,11 +14,11 @@ class Client extends Model
 
     public function user()
     {
-      return $this->belongsTo('user');
+      return $this->belongsTo('App\User');
     }
 
     public function invoices()
     {
-      // return $this->hasMany('invoice');
+      return $this->hasMany('App\Invoice');
     }
 }

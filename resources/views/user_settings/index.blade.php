@@ -68,7 +68,7 @@
   <script type="text/javascript">
     var reader = new FileReader();
     reader.onloadend = function() {
-      var href = '/api/v1/settings/{{ \Auth::user()->id }}';
+      var href = '{{ route("api.v1.settings.update", \Auth::user()->id) }}';
       $.ajax({
         type: 'put',
         url: href,

@@ -8,14 +8,14 @@
   <tbody>
     @foreach($clients as $client)
     <tr>
-      <td class="col-xs-2" style="text-align: center;">
+      <td class="col-xs-2 vcenter">
         <a href="{{ route('dashboard.clients.invoices.create', $client->id) }}" class="btn btn-sm btn-success">
           <span class="glyphicon glyphicon-usd"></span> Invoice</span>
         </a>
       </td>
-      <td class="col-xs-4"><a href="{{ route('dashboard.clients.show', $client->id) }}">{{ $client->name }}</a></td>
-      <td class="col-xs-4">{{ $client->email }}</td>
-      <td class="col-xs-2" style="text-align: center;">
+      <td class="col-xs-4 vcenter"><a href="{{ route('dashboard.clients.show', $client->id) }}">{{ $client->name }}</a></td>
+      <td class="col-xs-4 vcenter">{{ $client->email }}</td>
+      <td class="col-xs-2 vcenter" style="text-align: center;">
         <form class="form-inline" method="post" action="{{ route('dashboard.clients.destroy', $client->id) }}">
           <a href="{{ route('dashboard.clients.edit', $client->id) }}" class="btn btn-sm btn-info">
             <span class="glyphicon glyphicon-pencil"></span> Edit

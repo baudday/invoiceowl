@@ -20,4 +20,13 @@ class ImageManipulator {
     ]);
   }
 
+  public function uploadTemplateThumbnail($path)
+  {
+    return \Cloudinary\Uploader::upload($path, [
+      'width' => 154,
+      'height' => 200,
+      'crop' => 'thumb'
+    ]);
+  }
+
 }

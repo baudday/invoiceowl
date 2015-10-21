@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Invoice;
+
 class InvoicesController extends Controller
 {
     /**
@@ -16,6 +18,7 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        //
+        $invoices = Invoice::with('client')->where('user_id', \Auth::user()->id)->published()->unpaid()->orderBy('due_date', 'desc')->get();
+        return view('invoices/index', compact('invoices'));
     }
 }

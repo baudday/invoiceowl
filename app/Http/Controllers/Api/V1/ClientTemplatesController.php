@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V2;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use Flynsarmy\DbBladeCompiler\Facades\DbView;
@@ -9,7 +9,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Client;
+use App\Invoice;
 use App\Template;
+use App\LineItem;
 
 class ClientTemplatesController extends Controller
 {
@@ -53,12 +55,48 @@ class ClientTemplatesController extends Controller
     public function show(Request $request, $client_id, $template_id)
     {
         $client = Client::findOrFail($client_id);
-        $number = $request->input('number');
-        $description = $request->input('description');
-        $due_date = $request->input('due_date');
-        $user = \Auth::user();
-        $template = Template::findOrFail($template_id);
-        return DbView::make($template)->field('body')->with(compact('client', 'number', 'description', 'due_date', 'user'))->render();
+        $invoice = Invoice::firstOrCreate([
+          'number' => $request->input('number'),
+          'user_id' => \Auth::user()->id,
+          'client_id' => $client_id
+        ]);
+
+        // Delete all line items first
+        LineItem::where('invoice_id', $invoice->id)->delete();
+
+        $quantities = $request->input('quantities');
+        $prices = $request->input('prices');
+
+        foreach (array_filter($request->input('items')) as $key=>$item) {
+          $lineItem = LineItem::create([
+            'description' => $item,
+            'invoice_id' => $invoice->id,
+            'quantity' => $quantities[$key],
+            'unit_price' => $prices[$key]
+          ]);
+        }
+
+        $lineItems = LineItem::where('invoice_id', $invoice->id)->get();
+
+        $total = 0;
+        foreach ($lineItems->toArray() as $item) {
+          $total += $item['unit_price'] * $item['quantity'];
+        }
+
+        $invoice->update($request->only('description', 'due_date') + [
+          'template_id' => $template_id,
+          'total' => $total
+        ]);
+
+        $template = Template::find($invoice->template_id);
+
+        return [
+          'body' => DbView::make($template)
+                    ->field('body')
+                    ->with(compact('client', 'invoice', 'total', 'lineItems'))
+                    ->render(),
+          'invoice_id' => $invoice->id
+        ];
     }
 
     /**

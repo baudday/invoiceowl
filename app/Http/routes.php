@@ -38,7 +38,8 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
 // Resource routes
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::get('/', ['as' => 'dashboard', function() {
-      return view('dashboard');
+      $pastDueInvoices = App\Invoice::with('client')->pastDue()->get();
+      return view('dashboard', compact('pastDueInvoices'));
     }]);
 
     Route::resource('clients', 'ClientsController');
@@ -52,12 +53,36 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 // API Routes
 Route::group(['prefix' => 'api/v1'], function() {
   Route::group(['middleware' => 'auth'], function() {
-    Route::resource('clients.templates', 'Api\V2\ClientTemplatesController', ['only' => ['show']]);
-    Route::resource('settings', 'Api\V2\UserSettingsController', ['only' => ['update']]);
+    Route::resource('clients.templates', 'Api\V1\ClientTemplatesController', ['only' => ['show']]);
+    Route::resource('settings', 'Api\V1\UserSettingsController', ['only' => ['update']]);
+    Route::resource('templates', 'Api\V1\TemplatesController', ['only' => ['store']]);
+    Route::resource('invoices', 'Api\V1\InvoicesController', ['only' => ['show']]);
   });
 });
 
 
 if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
+    Route::get('/pdf', function() {
+
+      $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
+      $client = $invoice->client;
+      $total = 0;
+
+      foreach ($invoice->lineItems->toArray() as $item) {
+        $total += $item['unit_price'] * $item['quantity'];
+      }
+
+      $template = \App\Template::find($invoice->template_id);
+
+      // Save html to tmp file
+      $generator = new App\Lib\PdfGenerator($template);
+      $generator->makeHtml($client, $invoice, $total);
+      $generator->generate();
+
+      header("Content-type: application/pdf");
+      header("Content-disposition: inline;filename='invoice.pdf'");
+
+      return readfile($generator->pdfPath());
+    });
 }

@@ -16,7 +16,8 @@ class CreateLineItemsTable extends Migration
             $table->increments('id');
             $table->text('description');
             $table->integer('quantity');
-            $table->decimal('unit_price', 6, 2); // Allows up to $9999.00
+            $table->decimal('unit_price', 8, 2); // Allows up to $999999.00
+            $table->integer('invoice_id');
             $table->softDeletes();
             $table->timestamps();
         });

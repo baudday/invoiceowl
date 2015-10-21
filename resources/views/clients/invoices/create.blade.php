@@ -137,6 +137,9 @@
 @section('body-scripts')
 <script type="text/javascript">
   $(function() {
+
+    var invoice_id = 0;
+
     $('.template').on('click', function() {
       var href = '/api/v1/clients/{{ $client->id }}/templates/' + $(this).data('template');
       $.ajax({
@@ -144,14 +147,20 @@
         data: {
           'number': $('#number').val(),
           'due_date': $('#due_date').val(),
-          'description': $('#description').val()
+          'description': $('#description').val(),
+          'invoice_id': invoice_id,
+          'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
+          'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
+          'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
         }
-      }).done(function(body) {
-        $('.preview').html(body);
+      }).done(function(res) {
+        invoice_id = res.invoice_id;
+        $('.preview').html(res.body);
       });
 
       return false;
     });
+
   });
 </script>
 @stop

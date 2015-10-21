@@ -1,43 +1,32 @@
 @extends('layouts.default')
 
 @section('content')
-<h1>
-  <a href="{{ route('dashboard.clients.invoices.create', $client->id) }}" class="btn btn-lg btn-success">
-    <span class="glyphicon glyphicon-usd"></span> Invoice</span>
-  </a>
-  {{ $client->name }} <small>{{ $client->email }}</small>
-</h1>
-<hr>
-
-<h2>Past Invoices</h2>
-<table class='table table-bordered '>
+<h1>Unpaid Invoices</h1>
+<table class='table table-bordered table-hover'>
   <thead>
     <tr>
-      <th>#</th>
+      <th>Client</th>
       <th>Description</th>
       <th>Date Sent</th>
       <th>Due Date</th>
       <th>Amount</th>
-      <th>Paid</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    @foreach($client->invoices as $invoice)
-    <tr class="{{ $invoice->paid ? 'success' : 'danger' }}">
-      <td class="vcenter">{{ $invoice->number }}</td>
+    @foreach($invoices as $invoice)
+    <tr>
+      <td class="vcenter"><a href="{{ route('dashboard.clients.show', $invoice->client->id) }}">{{ $invoice->client->name }}</a></td>
       <td class="vcenter">{{ $invoice->description }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->updated_at)) }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->due_date)) }}</td>
       <td class="vcenter">{{ $invoice->total }}</td>
-      <td class="vcenter"><span class='glyphicon glyphicon-{{ $invoice->paid ? "ok" : "remove" }}'></span></td>
       <td class="vcenter">
         <form method="post" action="{{ route('dashboard.clients.invoices.update', [$invoice->client->id, $invoice->id]) }}">
           <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
             <span class="glyphicon glyphicon-eye-open"></span>
             View
           </a>
-          @if(!$invoice->paid)
           {!! method_field('put') !!}
           {!! csrf_field() !!}
           <input type="hidden" name="paid" value="1">
@@ -45,9 +34,9 @@
             <span class="glyphicon glyphicon-usd"></span>
             Paid
           </button>
-          @endif
         </form>
       </td>
+    </tr>
     @endforeach
   </tbody>
 </table>

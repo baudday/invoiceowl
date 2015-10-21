@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LineItem extends Model
 {
-    protected $fillable = ['description', 'quantity', 'unit_price'];
+    protected $fillable = ['description', 'quantity', 'unit_price', 'invoice_id'];
 
     public function invoice()
     {

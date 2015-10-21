@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Client;
 use App\Invoice;
 use App\Template;
+use App\Lib\PdfGenerator;
 
 class ClientInvoicesController extends Controller
 {
@@ -31,7 +32,7 @@ class ClientInvoicesController extends Controller
     public function create($client_id)
     {
         $client = Client::findOrFail($client_id);
-        $invoice_number = Invoice::latest($client_id)->first() + 1;
+        $invoice_number = Invoice::latest($client_id)->published()->first() ? Invoice::latest($client_id)->published()->first()->number+1 : 1;
         $templates = Template::available()->get();
         return view('clients.invoices.create', compact('client', 'invoice_number', 'templates'));
     }
@@ -49,7 +50,19 @@ class ClientInvoicesController extends Controller
           'due_date' => 'required|date|after:today',
           'description' => 'required'
         ]);
-        dd($request->input());
+
+        $invoice = Invoice::where($request->only('number', 'description', 'due_date') + ['client_id' => $client_id, 'user_id' => \Auth::user()->id])->first();
+        $template = Template::find($invoice->template_id);
+        $total = 0;
+        foreach ($invoice->lineItems->toArray() as $item) {
+          $total += $item['unit_price'] * $item['quantity'];
+        }
+        $pdfGenerator = new PdfGenerator($template);
+        $pdfGenerator->makeHtml($invoice->client, $invoice, $total);
+        $pdfGenerator->generate();
+        $invoice->update(['published' => true, 'pdf_path' => $pdfGenerator->pdfPath()]);
+
+        return redirect()->route('dashboard.invoices.index');
     }
 
     /**
@@ -81,9 +94,11 @@ class ClientInvoicesController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $client_id, $invoice_id)
     {
-        //
+        $invoice = Client::findOrFail($client_id)->invoices()->findOrFail($invoice_id);
+        $invoice->update(array_filter($request->only('number', 'description', 'due_date', 'paid', 'published')));
+        return redirect()->back();
     }
 
     /**

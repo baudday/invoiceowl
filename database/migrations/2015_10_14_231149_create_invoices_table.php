@@ -18,9 +18,12 @@ class CreateInvoicesTable extends Migration
             $table->text('description');
             $table->date('due_date');
             $table->boolean('paid')->default(false);
+            $table->decimal('total', 20, 2); // Needs to be big
             $table->integer('client_id');
             $table->integer('user_id');
             $table->integer('template_id');
+            $table->boolean('published')->default(false);
+            $table->string('pdf_path');
             $table->softDeletes();
             $table->timestamps();
         });

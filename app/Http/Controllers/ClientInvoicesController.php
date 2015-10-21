@@ -54,12 +54,8 @@ class ClientInvoicesController extends Controller
 
         $invoice = $this->userClientInvoices($client_id)->where($request->only('number', 'description', 'due_date'))->first();
         $template = Template::find($invoice->template_id);
-        $total = 0;
-        foreach ($invoice->lineItems->toArray() as $item) {
-          $total += $item['unit_price'] * $item['quantity'];
-        }
         $pdfGenerator = new PdfGenerator($template);
-        $pdfGenerator->makeHtml($invoice->client, $invoice, $total);
+        $pdfGenerator->makeHtml($invoice->client, $invoice, $invoice->total);
         $pdfGenerator->generate();
         $invoice->update(['published' => true, 'pdf_path' => $pdfGenerator->pdfPath()]);
 

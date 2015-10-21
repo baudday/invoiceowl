@@ -67,17 +67,11 @@ if (getenv('APP_ENV') == 'local') {
 
       $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
       $client = $invoice->client;
-      $total = 0;
-
-      foreach ($invoice->lineItems->toArray() as $item) {
-        $total += $item['unit_price'] * $item['quantity'];
-      }
-
       $template = \App\Template::find($invoice->template_id);
 
       // Save html to tmp file
       $generator = new App\Lib\PdfGenerator($template);
-      $generator->makeHtml($client, $invoice, $total);
+      $generator->makeHtml($client, $invoice, $invoice->total);
       $generator->generate();
 
       header("Content-type: application/pdf");

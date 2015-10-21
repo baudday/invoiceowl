@@ -79,8 +79,8 @@ class ClientTemplatesController extends Controller
         $lineItems = LineItem::where('invoice_id', $invoice->id)->get();
 
         $total = 0;
-        foreach ($lineItems->toArray() as $item) {
-          $total += $item['unit_price'] * $item['quantity'];
+        foreach ($lineItems as $item) {
+          $total += $item->totalPrice();
         }
 
         $invoice->update($request->only('description', 'due_date') + [

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    protected $fillable = ['number', 'description', 'due_date', 'paid', 'total', 'client_id', 'user_id', 'template_id', 'published', 'pdf_path'];
+    protected $fillable = ['number', 'description', 'due_date', 'paid', 'total', 'client_id', 'user_id', 'template_id', 'published', 'pdf_path', 'sent_date'];
 
     public function client()
     {

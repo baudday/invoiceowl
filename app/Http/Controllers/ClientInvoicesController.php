@@ -57,13 +57,17 @@ class ClientInvoicesController extends Controller
         $pdfGenerator = new PdfGenerator($template);
         $pdfGenerator->makeHtml($invoice->client, $invoice, $invoice->total);
         $pdfGenerator->generate();
-        $invoice->update(['published' => true, 'pdf_path' => $pdfGenerator->pdfPath()]);
+        $invoice->update([
+          'published' => true,
+          'pdf_path' => $pdfGenerator->pdfPath(),
+          'sent_date' => date('Y-m-d')
+        ]);
 
         $user = \Auth::user();
         $client = $invoice->client;
 
         \Mail::send('email.invoice', compact('user', 'client'), function ($m) use ($client, $invoice) {
-          $display = 'invoice_' . date('m-d-Y', strtotime($invoice->updated_at)) . '.pdf';
+          $display = 'invoice_' . date('m-d-Y', strtotime($invoice->sent_date)) . '.pdf';
           $m->attach($invoice->pdf_path, ['as' => $display]);
           $m->from(\Auth::user()->email, \Auth::user()->name);
           $m->to($client->email);

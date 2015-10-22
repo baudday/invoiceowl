@@ -27,7 +27,7 @@
     <tr class="{{ $invoice->paid ? 'success' : 'danger' }}">
       <td class="vcenter">{{ $invoice->number }}</td>
       <td class="vcenter">{{ $invoice->description }}</td>
-      <td class="vcenter">{{ date('F d, Y', strtotime($invoice->updated_at)) }}</td>
+      <td class="vcenter">{{ date('F d, Y', strtotime($invoice->sent_date)) }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->due_date)) }}</td>
       <td class="vcenter">{{ $invoice->total }}</td>
       <td class="vcenter">

@@ -39,7 +39,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     // TODO: Clean up this route
     Route::get('/', ['as' => 'dashboard', function() {
-      $pastDueInvoices = App\Invoice::with('client')->pastDue()->get();
+      $pastDueInvoices = \Auth::user()->invoices()->with('client')->published()->pastDue()->get();
       return view('dashboard', compact('pastDueInvoices'));
     }]);
 

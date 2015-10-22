@@ -13,6 +13,27 @@ $templates-bg: #cecece;
 @import url(https://fonts.googleapis.com/css?family=Righteous);
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #fff;
+  text-align: center;
+}
+.wrapper {
+  padding-bottom: 60px;
+}
+
 .navbar-default .navbar-brand {
   font-family: 'Righteous';
   color: $brand-primary;

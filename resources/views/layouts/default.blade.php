@@ -11,7 +11,7 @@
 
 @include('layouts.partials.nav')
 
-<div class="container">
+<div class="container wrapper">
   <div class='row'>
     <div class='col-lg-2 col-md-2 col-sm-4 col-xs-12'>
       @include('layouts.partials.menu')
@@ -21,6 +21,15 @@
     </div>
   </div>
   @yield('outside')
+  <div class="push"></div>
+</div>
+
+<footer class="footer">
+    <div class="row">
+        <div class="col-xs-12">
+            <small class="muted">Copyright &copy; {{ getenv('APP_NAME') }} {{ date('Y') }}. All Rights Reserved.</small>
+        </div>
+    </div>
 </div>
 
 @yield('body-scripts')

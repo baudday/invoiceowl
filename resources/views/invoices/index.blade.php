@@ -13,6 +13,7 @@
       <th>Due Date</th>
       <th>Amount</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -25,10 +26,6 @@
       <td class="vcenter">{{ $invoice->total }}</td>
       <td class="vcenter">
         <form method="post" action="{{ route('dashboard.clients.invoices.update', [$invoice->client->id, $invoice->id]) }}">
-          <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
-            <span class="glyphicon glyphicon-eye-open"></span>
-            View
-          </a>
           {!! method_field('put') !!}
           {!! csrf_field() !!}
           <input type="hidden" name="paid" value="1">
@@ -37,6 +34,12 @@
             Paid
           </button>
         </form>
+      </td>
+      <td class="vcenter">
+        <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
+          <span class="glyphicon glyphicon-eye-open"></span>
+          View
+        </a>
       </td>
     </tr>
     @endforeach

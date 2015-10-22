@@ -30,14 +30,9 @@
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->updated_at)) }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->due_date)) }}</td>
       <td class="vcenter">{{ $invoice->total }}</td>
-      <td class="vcenter"><span class='glyphicon glyphicon-{{ $invoice->paid ? "ok" : "remove" }}'></span></td>
       <td class="vcenter">
+        @if(!$invoice->paid)
         <form method="post" action="{{ route('dashboard.clients.invoices.update', [$invoice->client->id, $invoice->id]) }}">
-          <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
-            <span class="glyphicon glyphicon-eye-open"></span>
-            View
-          </a>
-          @if(!$invoice->paid)
           {!! method_field('put') !!}
           {!! csrf_field() !!}
           <input type="hidden" name="paid" value="1">
@@ -45,8 +40,15 @@
             <span class="glyphicon glyphicon-usd"></span>
             Paid
           </button>
-          @endif
         </form>
+        @else
+        <span class='glyphicon glyphicon-ok'></span></td>
+        @endif
+      <td class="vcenter">
+          <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            View
+          </a>
       </td>
     @endforeach
   </tbody>

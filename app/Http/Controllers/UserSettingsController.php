@@ -33,10 +33,9 @@ class UserSettingsController extends Controller
     {
         $this->validate($request, [
           'name' => 'required|string',
-          'email' => 'required|email',
           'phone_number' => 'numeric|digits:10'
         ]);
-        $this->user()->update($request->only(['name', 'email', 'phone_number', 'logo']));
+        $this->user()->update($request->only(['name', 'phone_number', 'logo']));
         $request->session()->flash('success', 'Your settings have been saved.');
 
         return redirect()->route('dashboard.settings.index');

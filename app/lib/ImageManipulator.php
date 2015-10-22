@@ -15,8 +15,7 @@ class ImageManipulator {
   public function uploadUserLogo($path) {
     return \Cloudinary\Uploader::upload($path, [
       'width' => 200,
-      'height' => 200,
-      'crop' => 'thumb'
+      'crop' => 'scale'
     ]);
   }
 

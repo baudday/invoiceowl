@@ -14,6 +14,9 @@ class SplashController extends Controller
 {
     public function home()
     {
+        if (\Auth::check()) {
+          return redirect()->route('dashboard');
+        }
         return view('home');
     }
 

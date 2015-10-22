@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-6 col-sm-offset-2">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form action="/auth/login" method="POST" role="form">

@@ -3,7 +3,14 @@
 @section('banner-content')
 <div class="col-sm-6 col-sm-offset-3">
     <h1>Send beautiful custom invoices effortlessly.</h1>
-    <h3>Get a free month of Pro when we launch!</h3>
+    @if(!\Auth::check())
+    <h3>Request beta access or
+      <a href="/dashboard" class="btn btn-lg btn-primary">
+        <span class="glyphicon glyphicon-log-in"></span>
+        Sign In
+      </a>
+    </h3>
+    @endif
     @if ($errors->first('email'))
     <div class="alert alert-danger">
         {{ $errors->first('email') }}
@@ -18,6 +25,7 @@
         {{ $success }}
     </div>
     @endif
+    @if(!\Auth::check())
     <form action="/email" method="POST" role="form">
         {{ csrf_field() }}
         <div class="input-group">
@@ -27,6 +35,7 @@
             </span>
         </div>
     </form>
+    @endif
 </div>
 @stop
 
@@ -45,10 +54,10 @@
                 <img class="media-object" src="img/template.png" alt="" width="75">
             </div>
             <div class="media-body">
-                <h4 class="media-heading">Use one of our free templates</h4>
-                Pick your template and we'll substitute in your logo along
-                with the rest of your information. Don't like our templates?
-                Design your own using our editor!
+                <h4 class="media-heading">Pick a template</h4>
+                We'll substitute in your logo along with the rest of your
+                information to generate a custom PDF invoice to be sent to your
+                client.
             </div>
         </div>
 
@@ -58,9 +67,8 @@
             </div>
             <div class="media-body">
                 <h4 class="media-heading">We'll email your invoices for you</h4>
-                When you're ready, hit send and we'll take care of the rest.
-                We'll email your client a PDF copy of the invoice, as well
-                as a receipt in the email body.
+                When you're ready, hit send and we'll email your client a PDF
+                copy of the invoice.
             </div>
         </div>
 
@@ -71,7 +79,7 @@
             <div class="media-body">
                 <h4 class="media-heading">Track and manage your invoices</h4>
                 Use our dashboard to keep track of which invoices you've sent,
-                who's paid, and who hasn't. 
+                who's paid, and who hasn't.
             </div>
         </div>
     </div>
@@ -102,11 +110,11 @@
                     <td>Up to 5</td>
                     <td class="success"><strong>Unlimited</strong></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>Custom templates</td>
                     <td>None</td>
                     <td class="success"><strong>Unlimited</strong></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td>{{ getenv('APP_NAME') }} watermark</td>
                     <td>Yes</td>

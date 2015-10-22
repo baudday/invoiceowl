@@ -12,6 +12,7 @@ gulp
 # Additional env variables required
 ```
 APP_NAME
+LOGO_PATH
 FACEBOOK
 TWITTER
 ADMIN_PASSWORD

@@ -62,6 +62,7 @@ Route::group(['prefix' => 'api/v1'], function() {
 });
 
 
+// Some debug routes
 if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
     Route::get('/pdf', function() {
@@ -79,5 +80,13 @@ if (getenv('APP_ENV') == 'local') {
       header("Content-disposition: inline;filename='invoice.pdf'");
 
       return readfile($generator->pdfPath());
+    });
+
+    Route::get('/invoice/email', function() {
+      $user = \Auth::user();
+      $invoice = \App\Invoice::with('client')->where('published', true)->first();
+      $client = $invoice->client;
+
+      return view('email/invoice', compact('user', 'invoice', 'client'));
     });
 }

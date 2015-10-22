@@ -59,6 +59,17 @@ class ClientInvoicesController extends Controller
         $pdfGenerator->generate();
         $invoice->update(['published' => true, 'pdf_path' => $pdfGenerator->pdfPath()]);
 
+        $user = \Auth::user();
+        $client = $invoice->client;
+
+        \Mail::send('email.invoice', compact('user', 'client'), function ($m) use ($client, $invoice) {
+          $display = 'invoice_' . date('m-d-Y', strtotime($invoice->updated_at)) . '.pdf';
+          $m->attach($invoice->pdf_path, ['as' => $display]);
+          $m->from(\Auth::user()->email, \Auth::user()->name);
+          $m->to($client->email);
+          $m->subject(\Auth::user()->name . " has sent you an invoice using InvoiceOwl");
+        });
+
         return redirect()->route('dashboard.invoices.index');
     }
 

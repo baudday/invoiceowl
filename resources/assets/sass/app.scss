@@ -69,3 +69,17 @@ $templates-bg: #cecece;
 .selected {
   border: 5px solid #fff;
 }
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.error-header {
+  font-family:Righteous;
+  color: #BF4D28;
+  font-weight:800;
+  font-size: 500%
+}

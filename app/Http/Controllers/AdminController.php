@@ -48,11 +48,36 @@ class AdminController extends Controller
         return back();
     }
 
+    public function invite($id)
+    {
+      $email = Email::findOrFail($id);
+      $email->key = $this->generateRandomString();
+      $email->save();
+
+      Mail::send('email.invite', compact('email'), function ($m) use ($email) {
+          $m->from(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
+          $m->to($email->email);
+          $m->subject("You've been invited to try InvoiceOwl!");
+      });
+
+      return redirect()->back();
+    }
+
     public function debugEmail(Request $request, $id)
     {
         $contact = Contact::find($id);
         $body = nl2br($request->body);
         $re = $contact->message;
         return view('email.respond', compact('body', 're'));
+    }
+
+    private function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

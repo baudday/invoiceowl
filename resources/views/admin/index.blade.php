@@ -5,10 +5,22 @@
     <div class="col-xs-12">
         <h1>Early Access Requests <span class="badge">{{ $emails->count() }}</span></h1>
         <hr>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <tbody>
             @foreach ($emails as $email)
-                <tr><td>{{ $email->email }}</td></tr>
+                <tr>
+                  <td class="vcenter">{{ $email->email }}</td>
+                  <td class="vcenter">
+                    @if(!$email->key)
+                    <form method="post" action="{{ route('email.invite', $email->id) }}">
+                      {!! method_field('PUT') !!}
+                      {!! csrf_field() !!}
+                      <button type="submit" class="btn btn-sm btn-success">
+                        <span class="glyphicon glyphicon-envelope"></span> Send Beta Invite
+                      </button>
+                    </form>
+                    @endif
+                </tr>
             @endforeach
             </tbody>
         </table>

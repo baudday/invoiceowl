@@ -22,7 +22,15 @@ Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-// Admin routes...
+// Registration routes...
+Route::get('auth/register', [
+  'uses' => 'Auth\AuthController@getRegister',
+  'middleware' => ['beta'],
+  'as' => 'register'
+]);
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+// Admin routes... Damn these are ugly!
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
     Route::get('/', 'AdminController@index');
     Route::get('/contact/{id}', [
@@ -32,6 +40,10 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
     Route::post('/contact/{id}', [
         'uses' => 'AdminController@send',
         'as' => 'contact.send'
+    ]);
+    Route::put('/email/{id}', [
+      'uses' => 'AdminController@invite',
+      'as' => 'email.invite'
     ]);
 });
 
@@ -88,5 +100,10 @@ if (getenv('APP_ENV') == 'local') {
       $client = $invoice->client;
 
       return view('email/invoice', compact('user', 'invoice', 'client'));
+    });
+
+    Route::get('/invite', function() {
+      $email = \App\Email::first();
+      return view('email/invite', compact('email'));
     });
 }

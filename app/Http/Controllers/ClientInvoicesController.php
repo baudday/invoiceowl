@@ -47,7 +47,7 @@ class ClientInvoicesController extends Controller
     {
         $this->validate($request, [
           'number' => 'required|numeric',
-          'due_date' => 'required|date|after:today',
+          'due_date' => 'required|date|after:yesterday',
           'description' => 'required',
           'template' => 'required'
         ]);

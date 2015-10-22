@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-<h2>Welcome {{ \Auth::user()->name }}! Here is your account at a glance.</h2>
+<h2>Welcome {{ \Auth::user()->name }}!</h2>
 <hr>
 <div class="row">
   <div class="col-sm-12">

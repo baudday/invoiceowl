@@ -8,6 +8,8 @@ $navbar-height: 70px;
 $navbar-border-radius: 0px;
 $navbar-default-bg: #fff;
 
+$templates-bg: #cecece;
+
 @import url(https://fonts.googleapis.com/css?family=Righteous);
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
@@ -42,11 +44,28 @@ $navbar-default-bg: #fff;
   cursor: pointer;
 }
 
+.templates {
+  background: $templates-bg;
+}
+
+.template-container {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.template img {
+  border: 5px solid transparent;
+}
+
+.template img:hover {
+  border: 5px dashed #fff;
+}
+
 .vcenter {
   vertical-align: middle !important;
   text-align: center;
 }
 
 .selected {
-  border: 5px dashed #ccc;
+  border: 5px solid #fff;
 }

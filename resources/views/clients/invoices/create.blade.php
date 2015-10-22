@@ -100,10 +100,12 @@
       </div>
 
       <div class="row templates">
-        <div class="form-group">
-          <div class="col-xs-12">
+        <div class="col-xs-12">
+          <div class="row">
             @foreach($templates as $template)
-            <a href="#" class="template" data-template="{{ $template->id }}"><img src="{{ $template->thumbnail }}" alt="" /></a>
+            <div class="col-xs-4 template-container">
+              <a href="#" class="template" data-template="{{ $template->id }}"><img src="{{ $template->thumbnail }}" alt="" /></a>
+            </div>
             @endforeach
           </div>
         </div>

@@ -18,7 +18,7 @@ class UserSettingsController extends Controller
      */
     public function index()
     {
-        $settings = $this->user()->select(['name', 'email', 'phone_number', 'logo'])->first();
+        $settings = $this->user()->select(['name', 'email', 'phone_number', 'logo'])->find(\Auth::user()->id);
         return view('user_settings/index', compact('settings'));
     }
 

@@ -10,6 +10,6 @@ class Template extends Model
 
     public function scopeAvailable($q)
     {
-      $q->where('is_custom', false)->where('user_id', \Auth::user()->id);
+      $q->where('is_custom', false)->orWhere('user_id', \Auth::user()->id);
     }
 }

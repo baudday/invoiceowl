@@ -24,6 +24,7 @@ class PdfGenerator {
 
   public function generate() {
     exec("$this->phantomjs_path $this->script_path $this->html_path $this->pdf_path Letter");
+    $this->dumpHtml();
   }
 
   public function makeHtml(Client $client, Invoice $invoice, $total) {
@@ -41,5 +42,9 @@ class PdfGenerator {
 
   public function pdfPath() {
     return $this->pdf_path;
+  }
+
+  private function dumpHtml() {
+    unlink($this->html_path);
   }
 }

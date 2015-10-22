@@ -1,4 +1,24 @@
+$icon-font-path: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/fonts/";
+
+$brand-primary: #BF4D28;
+$brand-success: #80BCA3;
+$brand-info: #E6AC27;
+
+$navbar-height: 70px;
+$navbar-border-radius: 0px;
+$navbar-default-bg: #fff;
+
+@import url(https://fonts.googleapis.com/css?family=Righteous);
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.navbar-default .navbar-brand {
+  font-family: 'Righteous';
+  color: $brand-primary;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  color: darken($brand-primary, 6.5%);
+}
 
 .logo-img-container {
   width: 200px;

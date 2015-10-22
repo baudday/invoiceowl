@@ -61,7 +61,7 @@ class ClientsController extends Controller
         $client = $this->userClients()->with([
           'invoices' => function($q) {
             // Show newest invoices first
-            $q->orderBy('updated_at', 'desc');
+            $q->published()->orderBy('updated_at', 'desc');
           }
         ])->findOrFail($id);
         return view('clients/show', compact('client'));

@@ -105,7 +105,7 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        $this->userClients()->destroy($id);
+        $this->userClients()->delete($id);
         return redirect()->route('dashboard.clients.index');
     }
 }

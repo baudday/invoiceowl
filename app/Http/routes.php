@@ -11,6 +11,7 @@
 |
 */
 
+// Static routes
 Route::get('/', 'SplashController@home');
 Route::post('/email', 'SplashController@email');
 Route::get('/thanks', 'SplashController@thanks');
@@ -21,7 +22,15 @@ Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-// Admin routes...
+// Registration routes...
+Route::get('auth/register', [
+  'uses' => 'Auth\AuthController@getRegister',
+  'middleware' => ['beta'],
+  'as' => 'register'
+]);
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+// Admin routes... Damn these are ugly!
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
     Route::get('/', 'AdminController@index');
     Route::get('/contact/{id}', [
@@ -32,9 +41,69 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
         'uses' => 'AdminController@send',
         'as' => 'contact.send'
     ]);
+    Route::put('/email/{id}', [
+      'uses' => 'AdminController@invite',
+      'as' => 'email.invite'
+    ]);
+});
+
+// Resource routes
+Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
+    // TODO: Clean up this route
+    Route::get('/', ['as' => 'dashboard', function() {
+      $pastDueInvoices = \Auth::user()->invoices()->with('client')->published()->pastDue()->get();
+      return view('dashboard', compact('pastDueInvoices'));
+    }]);
+
+    Route::resource('clients', 'ClientsController');
+      Route::resource('clients.invoices', 'ClientInvoicesController', ['only' => ['create', 'store', 'update']]);
+
+    Route::resource('invoices', 'InvoicesController', ['only' => ['index']]);
+    Route::resource('templates', 'TemplatesController');
+    Route::resource('settings', 'UserSettingsController', ['only' => ['index', 'update']]);
+});
+
+// API Routes
+Route::group(['prefix' => 'api/v1'], function() {
+  Route::group(['middleware' => 'auth'], function() {
+    Route::resource('clients.templates', 'Api\V1\ClientTemplatesController', ['only' => ['show']]);
+    Route::resource('settings', 'Api\V1\UserSettingsController', ['only' => ['update']]);
+    Route::resource('templates', 'Api\V1\TemplatesController', ['only' => ['store']]);
+    Route::resource('invoices', 'Api\V1\InvoicesController', ['only' => ['show']]);
+  });
 });
 
 
+// Some debug routes
 if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
+    Route::get('/pdf', function() {
+
+      $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
+      $client = $invoice->client;
+      $template = \App\Template::find($invoice->template_id);
+
+      // Save html to tmp file
+      $generator = new App\Lib\PdfGenerator($template);
+      $generator->makeHtml($client, $invoice, $invoice->total);
+      $generator->generate();
+
+      header("Content-type: application/pdf");
+      header("Content-disposition: inline;filename='invoice.pdf'");
+
+      return readfile($generator->pdfPath());
+    });
+
+    Route::get('/invoice/email', function() {
+      $user = \Auth::user();
+      $invoice = \App\Invoice::with('client')->where('published', true)->first();
+      $client = $invoice->client;
+
+      return view('email/invoice', compact('user', 'invoice', 'client'));
+    });
+
+    Route::get('/invite', function() {
+      $email = \App\Email::first();
+      return view('email/invite', compact('email'));
+    });
 }

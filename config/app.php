@@ -145,6 +145,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * My Service Providers...
+         */
+        Flynsarmy\DbBladeCompiler\DbBladeCompilerServiceProvider::class,
+
     ],
 
     /*

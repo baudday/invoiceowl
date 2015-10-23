@@ -83,10 +83,14 @@ class ClientTemplatesController extends Controller
           $total += $item->totalPrice();
         }
 
-        $invoice->update($request->only('description', 'due_date') + [
+        $data = [
+          'description' => $request->input('description'),
+          'due_date' => date('Y-m-d', strtotime($request->input('due_date'))),
           'template_id' => $template_id,
           'total' => $total
-        ]);
+        ];
+
+        $invoice->update($data);
 
         $template = Template::find($invoice->template_id);
 

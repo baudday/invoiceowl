@@ -52,7 +52,9 @@ class ClientInvoicesController extends Controller
           'template' => 'required'
         ]);
 
-        $invoice = $this->userClientInvoices($client_id)->where($request->only('number', 'description', 'due_date'))->first();
+        $due_date = date('Y-m-d', strtotime($request->input('due_date')));
+
+        $invoice = $this->userClientInvoices($client_id)->where($request->only('number', 'description') + ['due_date' => $due_date])->first();
         $template = Template::find($invoice->template_id);
         $pdfGenerator = new PdfGenerator($template);
         $pdfGenerator->makeHtml($invoice->client, $invoice, $invoice->total);

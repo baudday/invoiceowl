@@ -132,7 +132,7 @@
 <div class='row'>
   <div class='form-group'>
     <div class='col-xs-12'>
-        <button type='submit' class='btn btn-lg btn-default'><span class='glyphicon glyphicon-send'></span> Send</button>
+        <button id="submit_form" type='submit' class='btn btn-lg btn-default'><span class='glyphicon glyphicon-send'></span> Send</button>
     </div>
   </div>
 </div>
@@ -146,19 +146,26 @@
   $(function() {
 
     $('.template').on('click', function() {
-      updateInvoice();
+      updateInvoice(function(res) {
+        invoice_id = res.invoice_id;
+        $('.preview').html(res.body);
+        $('body').animate({
+          scrollTop: ($('#preview_title').offset().top)
+        });
+      });
       $('.template').find('img').removeClass('selected');
       $(this).find('img').addClass('selected');
       return false;
     });
 
-    $('#create').on('submit', function() {
-      updateInvoice();
+    $('#submit_form').on('click', function() {
+      updateInvoice(function(res) { $('#create').submit(); });
+      return false;
     });
 
   });
 
-  function updateInvoice() {
+  function updateInvoice(callback) {
     var template_id = $('.template').data('template');
     var href = '/api/v1/clients/{{ $client->id }}/templates/' + template_id;
     $('#template_field').val(template_id);
@@ -173,13 +180,7 @@
         'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
         'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
       }
-    }).done(function(res) {
-      invoice_id = res.invoice_id;
-      $('.preview').html(res.body);
-      $('body').animate({
-        scrollTop: ($('#preview_title').offset().top)
-      });
-    });
+    }).done(callback);
   }
 </script>
 @stop

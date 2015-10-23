@@ -208,7 +208,7 @@ small {
           <td style="text-align:center;">@yield('top')</td>
         </tr>
         <tr>
-          <td style="text-align:center;"><a href="http://invoiceowl.com"><img class="logo" src="{{ getenv('LOGO_PATH') }}"></a></td>
+          <td style="text-align:center;"><a href="http://invoiceowl.com"><img style="width:300px;" class="logo" src="{{ getenv('LOGO_PATH') }}"></a></td>
         </tr>
         <tr>
           <td>
@@ -235,7 +235,7 @@ small {
       <div class="content">
         <table>
           <tr>
-            <td align="center">
+            <td style="text-align: center;" align="center">
               <p>
                 <a href="http://invoiceowl.com">InvoiceOwl</a> allows you to
                 send and manage beautiful invoices effortlessly.

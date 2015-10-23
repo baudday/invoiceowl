@@ -10,5 +10,5 @@
 
 <p>We have attached your invoice to this email, as a PDF. Replies will be sent
   to {{ $user->name }}
-  &lt;<a href="mailto:{{$user->name}}">{{ $user->email }}</a>&gt;.</p>
+  &lt;<a href="mailto:{{$user->email}}">{{ $user->email }}</a>&gt;.</p>
 @stop

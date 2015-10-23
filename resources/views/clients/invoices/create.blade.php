@@ -8,7 +8,7 @@
 
     @include('layouts.partials.errors')
 
-    <form class='form-horizontal' method="post" action="{{ route('dashboard.clients.invoices.store', $client->id) }}">
+    <form id="create" class='form-horizontal' method="post" action="{{ route('dashboard.clients.invoices.store', $client->id) }}">
 
       {!! csrf_field() !!}
 
@@ -142,40 +142,44 @@
 
 @section('body-scripts')
 <script type="text/javascript">
+  var invoice_id = 0;
   $(function() {
 
-    var invoice_id = 0;
-
     $('.template').on('click', function() {
-      var template_id = $(this).data('template');
-      var href = '/api/v1/clients/{{ $client->id }}/templates/' + template_id;
-
-      $('#template_field').val(template_id);
+      updateInvoice();
       $('.template').find('img').removeClass('selected');
       $(this).find('img').addClass('selected');
-
-      $.ajax({
-        url: href,
-        data: {
-          'number': $('#number').val(),
-          'due_date': $('#due_date').val(),
-          'description': $('#description').val(),
-          'invoice_id': invoice_id,
-          'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
-          'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
-          'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
-        }
-      }).done(function(res) {
-        invoice_id = res.invoice_id;
-        $('.preview').html(res.body);
-        $('body').animate({
-          scrollTop: ($('#preview_title').offset().top)
-        });
-      });
-
       return false;
     });
 
+    $('#create').on('submit', function() {
+      updateInvoice();
+    });
+
   });
+
+  function updateInvoice() {
+    var template_id = $('.template').data('template');
+    var href = '/api/v1/clients/{{ $client->id }}/templates/' + template_id;
+    $('#template_field').val(template_id);
+    $.ajax({
+      url: href,
+      data: {
+        'number': $('#number').val(),
+        'due_date': $('#due_date').val(),
+        'description': $('#description').val(),
+        'invoice_id': invoice_id,
+        'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
+        'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
+        'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
+      }
+    }).done(function(res) {
+      invoice_id = res.invoice_id;
+      $('.preview').html(res.body);
+      $('body').animate({
+        scrollTop: ($('#preview_title').offset().top)
+      });
+    });
+  }
 </script>
 @stop

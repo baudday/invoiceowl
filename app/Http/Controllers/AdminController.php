@@ -10,6 +10,7 @@ use Mail;
 
 use App\Email;
 use App\Contact;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -20,9 +21,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $emails = Email::all();
+        $emails = Email::where('key', null)->get();
+        $users = User::with('invoices')->get();
         $contacts = Contact::where('replied', false)->get();
-        return view('admin.index', compact('emails', 'contacts'));
+        return view('admin.index', compact('emails', 'contacts', 'users'));
     }
 
     public function respond(Request $request, $id)

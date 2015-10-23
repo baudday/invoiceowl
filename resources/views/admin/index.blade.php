@@ -2,13 +2,14 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xs-12">
-        <h1>Early Access Requests <span class="badge">{{ $emails->count() }}</span></h1>
+    <div class="col-sm-6">
+        <h1>Pending Beta Invites</h1>
         <hr>
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover table-condensed">
             <tbody>
             @foreach ($emails as $email)
                 <tr>
+                  <td class="vcenter">{{ date('d/m/Y', strtotime($email->created_at)) }}</td>
                   <td class="vcenter">{{ $email->email }}</td>
                   <td class="vcenter">
                     @if(!$email->key)
@@ -16,7 +17,7 @@
                       {!! method_field('PUT') !!}
                       {!! csrf_field() !!}
                       <button type="submit" class="btn btn-sm btn-success">
-                        <span class="glyphicon glyphicon-envelope"></span> Send Beta Invite
+                        <span class="glyphicon glyphicon-envelope"></span> Invite
                       </button>
                     </form>
                     @endif
@@ -24,6 +25,21 @@
             @endforeach
             </tbody>
         </table>
+    </div>
+    <div class="col-sm-6">
+      <h1>Registered Users</h1>
+      <hr>
+      <table class="table table-bordered table-hover table-condensed">
+        <tbody>
+          @foreach($users as $user)
+          <tr>
+            <td class="vcenter">{{ $user->name }}</td>
+            <td class="vcenter">{{ $user->email }}</td>
+            <td class="vcenter">{{ $user->invoices->count() }}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
 </div>
 

@@ -77,21 +77,16 @@ Route::group(['prefix' => 'api/v1'], function() {
 // Some debug routes
 if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
-    Route::get('/pdf', function() {
+    Route::get('/template', function() {
 
       $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
       $client = $invoice->client;
       $template = \App\Template::find($invoice->template_id);
 
-      // Save html to tmp file
-      $generator = new App\Lib\PdfGenerator($template);
-      $generator->makeHtml($client, $invoice, $invoice->total);
-      $generator->generate();
+      $total = $invoice->total;
+      $lineItems = $invoice->lineItems;
 
-      header("Content-type: application/pdf");
-      header("Content-disposition: inline;filename='invoice.pdf'");
-
-      return readfile($generator->pdfPath());
+      return view('templates/stub', compact('invoice', 'client', 'total', 'lineItems'));
     });
 
     Route::get('/invoice/email', function() {

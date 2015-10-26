@@ -143,9 +143,11 @@
 @section('body-scripts')
 <script type="text/javascript">
   var invoice_id = 0;
+  var template_id = 0;
   $(function() {
 
     $('.template').on('click', function() {
+      template_id = $(this).data('template');
       updateInvoice(function(res) {
         invoice_id = res.invoice_id;
         $('.preview').html(res.body);
@@ -166,7 +168,6 @@
   });
 
   function updateInvoice(callback) {
-    var template_id = $('.template').data('template');
     var href = '/api/v1/clients/{{ $client->id }}/templates/' + template_id;
     $('#template_field').val(template_id);
     $.ajax({

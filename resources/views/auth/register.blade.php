@@ -24,6 +24,11 @@
                             <input type="text" name="name" class="form-control input-lg" id="name" placeholder="Joe Namath" value="{{ old('name') }}">
                         </div>
 
+                        <div class='form-group'>
+                          <label for='company_name'>Company Name (Optional)</label>
+                          <input type='text' name='company_name' class='form-control input-lg' value="{{ old('company_name') }}" placeholder="Acme Corp">
+                        </div>
+
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" name="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}">

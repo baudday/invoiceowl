@@ -152,6 +152,15 @@
       updateInvoice(function(res) {
         invoice_id = res.invoice_id;
         $('.preview').html(res.body);
+        $('.preview').css({
+          background: '#ccc',
+          padding: '25px 0'
+        });
+        $('.preview').find('.container').css({
+          width: '8.5in',
+          background: '#fff',
+          padding: '0.5in'
+        });
         $('body').animate({
           scrollTop: ($('#preview_title').offset().top)
         });

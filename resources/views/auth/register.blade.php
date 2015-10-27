@@ -51,3 +51,11 @@
         </div>
     </div>
 @stop
+
+@section('body-scripts')
+<script type="text/javascript">
+  $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
+@stop

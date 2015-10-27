@@ -132,7 +132,8 @@
 <div class='row'>
   <div class='form-group'>
     <div class='col-xs-12'>
-        <button id="submit_form" type='submit' class='btn btn-lg btn-default'><span class='glyphicon glyphicon-send'></span> Send</button>
+      <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="send" onclick="updateInvoice()"><span class='glyphicon glyphicon-send'></span> Send</button>
+      <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="download" onclick="updateInvoice()"><span class='glyphicon glyphicon-download'></span> Download</button>
     </div>
   </div>
 </div>
@@ -151,6 +152,15 @@
       updateInvoice(function(res) {
         invoice_id = res.invoice_id;
         $('.preview').html(res.body);
+        $('.preview').css({
+          background: '#ccc',
+          padding: '25px 0'
+        });
+        $('.preview').find('.container').css({
+          width: '8.5in',
+          background: '#fff',
+          padding: '0.5in'
+        });
         $('body').animate({
           scrollTop: ($('#preview_title').offset().top)
         });
@@ -160,28 +170,28 @@
       return false;
     });
 
-    $('#submit_form').on('click', function() {
-      updateInvoice(function(res) { $('#create').submit(); });
-      return false;
-    });
-
   });
 
   function updateInvoice(callback) {
+    callback = callback || function(){};
     var href = '/api/v1/clients/{{ $client->id }}/templates/' + template_id;
     $('#template_field').val(template_id);
     $.ajax({
       url: href,
-      data: {
-        'number': $('#number').val(),
-        'due_date': $('#due_date').val(),
-        'description': $('#description').val(),
-        'invoice_id': invoice_id,
-        'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
-        'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
-        'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
-      }
+      data: getData()
     }).done(callback);
+  }
+
+  function getData() {
+    return {
+      'number': $('#number').val(),
+      'due_date': $('#due_date').val(),
+      'description': $('#description').val(),
+      'invoice_id': invoice_id,
+      'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
+      'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
+      'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
+    };
   }
 </script>
 @stop

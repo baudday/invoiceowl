@@ -24,6 +24,11 @@
                             <input type="text" name="name" class="form-control input-lg" id="name" placeholder="Joe Namath" value="{{ old('name') }}">
                         </div>
 
+                        <div class='form-group'>
+                          <label for='company_name'>Company Name (Optional)</label>
+                          <input type='text' name='company_name' class='form-control input-lg' value='{{ $settings->company_name }}' placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+                        </div>
+
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" name="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}">
@@ -45,4 +50,12 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('body-scripts')
+<script type="text/javascript">
+  $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 @stop

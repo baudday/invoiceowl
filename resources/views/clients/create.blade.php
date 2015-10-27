@@ -12,7 +12,7 @@
 
       <div class='form-group'>
         <label for='name'>Name</label>
-        <input name='name' type='text' class='form-control input-lg' placeholder='Joe Namath' required>
+        <input name='name' type='text' class='form-control input-lg' placeholder='Joe Namath or Acme Corp' data-toggle="tooltip" data-placement="top" title="Who the invoices will be made out to. This could be an individual or company." required>
       </div>
 
       <div class='form-group'>
@@ -21,7 +21,9 @@
       </div>
 
       <div class='form-group'>
-          <button type='submit' class='btn btn-lg btn-default'>Create</button>
+          <button type='submit' class='btn btn-lg btn-default'>
+            <span class="glyphicon glyphicon-floppy-save"></span> Save
+          </button>
       </div>
 
     </form>
@@ -29,4 +31,12 @@
   </div>
 </div>
 
+@stop
+
+@section('body-scripts')
+<script type="text/javascript">
+  $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 @stop

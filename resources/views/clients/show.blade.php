@@ -20,6 +20,7 @@
       <th>Amount</th>
       <th>Paid</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -36,19 +37,22 @@
           {!! method_field('put') !!}
           {!! csrf_field() !!}
           <input type="hidden" name="paid" value="1">
-          <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to mark this invoice as paid? This cannot be undone.');">
-            <span class="glyphicon glyphicon-usd"></span>
-            Paid
+          <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to mark this invoice as paid? This cannot be undone.');">
+            <span class="glyphicon glyphicon-usd"></span> Paid
           </button>
         </form>
         @else
         <span class='glyphicon glyphicon-ok'></span></td>
         @endif
       <td class="vcenter">
-          <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
-            <span class="glyphicon glyphicon-eye-open"></span>
-            View
-          </a>
+        <a class="btn btn-sm btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
+          <span class="glyphicon glyphicon-eye-open"></span> View
+        </a>
+      </td>
+      <td class="vcenter">
+        <a class="btn btn-sm btn-info" href="{{ route('dashboard.invoices.show', $invoice->id) }}">
+          <span class="glyphicon glyphicon-download"></span> Download
+        </a>
       </td>
     @endforeach
   </tbody>

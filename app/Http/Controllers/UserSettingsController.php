@@ -18,7 +18,7 @@ class UserSettingsController extends Controller
      */
     public function index()
     {
-        $settings = $this->user()->select(['name', 'email', 'phone_number', 'logo'])->find(\Auth::user()->id);
+        $settings = $this->user()->select(['name', 'email', 'phone_number', 'logo', 'company_name'])->find(\Auth::user()->id);
         return view('user_settings/index', compact('settings'));
     }
 
@@ -32,10 +32,11 @@ class UserSettingsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-          'name' => 'required|string',
-          'phone_number' => 'numeric|digits:10'
+          'name' => 'required|string|max:255',
+          'phone_number' => 'numeric|digits:10',
+          'company_name' => 'string|max:255'
         ]);
-        $this->user()->update($request->only(['name', 'phone_number', 'logo']));
+        $this->user()->update($request->only(['name', 'phone_number', 'logo', 'company_name']));
         $request->session()->flash('success', 'Your settings have been saved.');
 
         return redirect()->route('dashboard.settings.index');

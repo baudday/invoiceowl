@@ -44,13 +44,18 @@
       </div>
 
       <div class='form-group'>
+        <label for='company_name'>Company Name (Optional)</label>
+        <input type='text' name='company_name' class='form-control input-lg' value='{{ $settings->company_name }}' placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+      </div>
+
+      <div class='form-group'>
         <label for='email'>Email</label>
         <input type='email' name='email' class='form-control input-lg' value='{{ $settings->email }}' disabled>
       </div>
 
       <div class='form-group'>
         <label for='name'>Phone Number</label>
-        <input type='text' name='phone_number' class='form-control input-lg' value='{{ $settings->phone_number }}'>
+        <input type='text' name='phone_number' class='form-control input-lg' value='{{ $settings->phone_number }}' placeholder="9185551234">
       </div>
 
       <div class='form-group'>
@@ -109,6 +114,8 @@
         }
 
       });
+
+      $('[data-toggle="tooltip"]').tooltip();
     });
 
     function showError(msg) {

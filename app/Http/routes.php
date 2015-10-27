@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     Route::resource('clients', 'ClientsController');
       Route::resource('clients.invoices', 'ClientInvoicesController', ['only' => ['create', 'store', 'update']]);
 
-    Route::resource('invoices', 'InvoicesController', ['only' => ['index']]);
+    Route::resource('invoices', 'InvoicesController', ['only' => ['index', 'show']]);
     Route::resource('templates', 'TemplatesController');
     Route::resource('settings', 'UserSettingsController', ['only' => ['index', 'update']]);
 });

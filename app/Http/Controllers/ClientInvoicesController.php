@@ -65,16 +65,22 @@ class ClientInvoicesController extends Controller
           'sent_date' => date('Y-m-d')
         ]);
 
-        $user = \Auth::user();
-        $client = $invoice->client;
+        if ($request->input('submit_action') == 'download') {
+          // Flash download to invoices index so user doesn't stay on create page
+          $request->session()->flash('download', $invoice->id);
+        }
+        else {
+          $user = \Auth::user();
+          $client = $invoice->client;
 
-        \Mail::send('email.invoice', compact('user', 'client'), function ($m) use ($client, $invoice) {
-          $display = 'invoice_' . date('m-d-Y', strtotime($invoice->sent_date)) . '.pdf';
-          $m->attach($invoice->pdf_path, ['as' => $display]);
-          $m->from(\Auth::user()->email, \Auth::user()->name);
-          $m->to($client->email);
-          $m->subject(\Auth::user()->name . " has sent you an invoice using InvoiceOwl");
-        });
+          \Mail::send('email.invoice', compact('user', 'client'), function ($m) use ($client, $invoice) {
+            $display = 'invoice_' . date('m-d-Y', strtotime($invoice->sent_date)) . '.pdf';
+            $m->attach($invoice->pdf_path, ['as' => $display]);
+            $m->from(\Auth::user()->email, \Auth::user()->name);
+            $m->to($client->email);
+            $m->subject(\Auth::user()->name . " has sent you an invoice using InvoiceOwl");
+          });
+        }
 
         return redirect()->route('dashboard.invoices.index');
     }

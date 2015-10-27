@@ -1,6 +1,13 @@
 @extends('layouts.default')
 
 @section('content')
+@if(session('download'))
+<div class="alert alert-success">
+  <strong>Invoice created.</strong>
+  <a href="{{ route('dashboard.invoices.show', session('download')) }}" target="_blank">Click here</a>
+  to download.
+</div>
+@endif
 <h1>Unpaid Invoices</h1>
 <hr>
 @if($invoices->count() > 0)
@@ -12,6 +19,7 @@
       <th>Date Sent</th>
       <th>Due Date</th>
       <th>Amount</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -29,16 +37,19 @@
           {!! method_field('put') !!}
           {!! csrf_field() !!}
           <input type="hidden" name="paid" value="1">
-          <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to mark this invoice as paid? This cannot be undone.');">
-            <span class="glyphicon glyphicon-usd"></span>
-            Paid
+          <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to mark this invoice as paid? This cannot be undone.');">
+            <span class="glyphicon glyphicon-usd"></span> Paid
           </button>
         </form>
       </td>
       <td class="vcenter">
-        <a class="btn btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
-          <span class="glyphicon glyphicon-eye-open"></span>
-          View
+        <a class="btn btn-sm btn-info view-btn" href="#" data-invoice="{{ $invoice->id }}" data-toggle="modal" data-target="preview_modal">
+          <span class="glyphicon glyphicon-eye-open"></span> View
+        </a>
+      </td>
+      <td class="vcenter">
+        <a class="btn btn-sm btn-info" href="{{ route('dashboard.invoices.show', $invoice->id) }}" target="_blank">
+          <span class="glyphicon glyphicon-download"></span> Download
         </a>
       </td>
     </tr>

@@ -47,4 +47,9 @@ class Invoice extends Model
     {
       return $q->where('paid', false)->where('due_date', '<', new \DateTime());
     }
+
+    public function scopeMonth($q, $field)
+    {
+      return $q->where(\DB::raw("MONTH($field)"), date('n'));
+    }
 }

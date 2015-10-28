@@ -24,7 +24,7 @@
   <div class="push"></div>
 </div>
 
-<footer class="footer">
+<footer class="footer container">
     <div class="row">
         <div class="col-xs-12">
             <small class="muted">Copyright &copy; {{ getenv('APP_NAME') }} {{ date('Y') }}. All Rights Reserved.</small>

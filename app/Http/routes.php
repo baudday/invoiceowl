@@ -50,10 +50,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
 // Resource routes
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
     // TODO: Clean up this route
-    Route::get('/', ['as' => 'dashboard', function() {
-      $pastDueInvoices = \Auth::user()->invoices()->with('client')->published()->pastDue()->get();
-      return view('dashboard', compact('pastDueInvoices'));
-    }]);
+    Route::get('/', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
 
     Route::resource('clients', 'ClientsController');
       Route::resource('clients.invoices', 'ClientInvoicesController', ['only' => ['create', 'store', 'update']]);

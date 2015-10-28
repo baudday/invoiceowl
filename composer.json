@@ -18,11 +18,15 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "app/InvoiceOwl/"
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+          "app/InvoiceOwl/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

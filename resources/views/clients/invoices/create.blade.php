@@ -132,7 +132,7 @@
 <div class='row'>
   <div class='form-group'>
     <div class='col-xs-12'>
-      <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="send" onclick="updateInvoice()"><span class='glyphicon glyphicon-send'></span> Send</button>
+      <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="send" onclick="updateInvoice()"><span class='glyphicon glyphicon-send'></span> Send to {{ $client->email }}</button>
       <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="download" onclick="updateInvoice()"><span class='glyphicon glyphicon-download'></span> Download</button>
     </div>
   </div>

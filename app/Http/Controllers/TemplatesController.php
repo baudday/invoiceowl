@@ -86,9 +86,9 @@ class TemplatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, ['body' => 'required']);
+        $this->validate($request, ['body' => 'required', 'thumbnail' => 'required']);
         $template = Template::findOrFail($id);
-        $template->update($request->only('body'));
+        $template->update($request->only('body', 'thumbnail'));
         return redirect()->route('dashboard.templates.index');
     }
 

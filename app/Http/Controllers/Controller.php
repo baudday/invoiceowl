@@ -23,11 +23,11 @@ abstract class Controller extends BaseController
 
     public function userInvoices()
     {
-      return $this->user()->invoices()->with('client')->published();
+      return $this->user()->invoices()->with('client');
     }
 
     public function userClientInvoices($client_id)
     {
-      return $this->userClients()->findOrFail($client_id)->invoices()->published();
+      return $this->userClients()->findOrFail($client_id)->invoices();
     }
 }

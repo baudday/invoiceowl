@@ -17,19 +17,19 @@ class DashboardController extends Controller
     {
       $data = [
         'month' => [
-          'sent_count' => $this->userInvoices()->month('sent_date')->count(),
-          'paid_count' => $this->userInvoices()->month('sent_date')->paid()->count(),
-          'collected'  => $this->userInvoices()->paid()->month('sent_date')->sum('total')
+          'sent_count' => $this->userInvoices()->published()->month('sent_date')->count(),
+          'paid_count' => $this->userInvoices()->published()->month('sent_date')->paid()->count(),
+          'collected'  => $this->userInvoices()->published()->paid()->month('sent_date')->sum('total')
         ],
         'all_time' => [
-          'sent_count' => $this->userInvoices()->count(),
-          'paid_count' => $this->userInvoices()->paid()->count(),
-          'collected'  => $this->userInvoices()->paid()->sum('total'),
-          'unpaid_count' => $this->userInvoices()->unpaid()->count(),
-          'past_due_count' => $this->userInvoices()->pastDue()->count(),
-          'uncollected' => $this->userInvoices()->unpaid()->sum('total')
+          'sent_count' => $this->userInvoices()->published()->count(),
+          'paid_count' => $this->userInvoices()->published()->paid()->count(),
+          'collected'  => $this->userInvoices()->published()->paid()->sum('total'),
+          'unpaid_count' => $this->userInvoices()->published()->unpaid()->count(),
+          'past_due_count' => $this->userInvoices()->published()->pastDue()->count(),
+          'uncollected' => $this->userInvoices()->published()->unpaid()->sum('total')
         ],
-        'pastDueInvoices' => $this->userInvoices()->pastDue()->get()
+        'pastDueInvoices' => $this->userInvoices()->published()->pastDue()->get()
       ];
 
       return view('dashboard', $data);

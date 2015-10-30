@@ -41,4 +41,38 @@
 <h2 style="text-align:center;">No one owes you anything! :)</h2>
 @endif
 @include('invoices.partials.preview')
+
+@if(session('survey'))
+<div class="modal fade" id="survey">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thanks for using InvoiceOwl!</h4>
+      </div>
+      <div class="modal-body">
+        <h3>{{ \Auth::user()->name }},</h3>
+        <p>Thank you for using InvoiceOwl! We would really appreciate it if you
+          would take a quick four question survey to let us know what you think.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No thanks</button>
+        <a id="survey_link" target="_blank" href="//invoiceowl.typeform.com/to/VcwgOL" class="btn btn-primary">Sure, I'll help!</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@endif
+@stop
+
+@section('body-scripts')
+<script type="text/javascript">
+  $(function() {
+      @if(session('survey'))
+      $('#survey').modal('show');
+      $('#survey_link').on('click', function() {
+        $('#survey').modal('hide');
+      });
+      @endif
+  });
+</script>
 @stop

@@ -82,6 +82,10 @@ class ClientInvoicesController extends Controller
           });
         }
 
+        if ($this->userInvoices()->count() < 2) {
+          $request->session()->flash('survey', true);
+        }
+
         return redirect()->route('dashboard.invoices.index');
     }
 

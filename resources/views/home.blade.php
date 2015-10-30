@@ -123,7 +123,7 @@
                 <tr>
                     <td>Price / month</td>
                     <td><strong>Free</strong></td>
-                    <td><strong>$5</strong></td>
+                    <td><s>$5</s> <strong>Free</strong></td>
                 </tr>
             </tbody>
         </table>

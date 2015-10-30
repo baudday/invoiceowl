@@ -22,9 +22,10 @@ class AdminController extends Controller
     public function index()
     {
         $emails = Email::where('key', null)->get();
-        $users = User::with('invoices')->get();
+        $users = User::with('invoices', 'clients')->get();
+        $unregistered = Email::whereRaw('email not in(select email from users)')->whereNotNull('key')->get();
         $contacts = Contact::where('replied', false)->get();
-        return view('admin.index', compact('emails', 'contacts', 'users'));
+        return view('admin.index', compact('emails', 'contacts', 'users', 'unregistered'));
     }
 
     public function respond(Request $request, $id)

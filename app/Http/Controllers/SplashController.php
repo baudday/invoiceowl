@@ -27,40 +27,9 @@ class SplashController extends Controller
         ]);
 
         $email = Email::create($request->all());
+        \Newsletter::subscribe($email->email);
 
-        $mcUrl = getenv('MAILCHIMP_URL');
-        $mcData = [
-            'MERGE0' => $email->email,
-            'u'      => getenv('MAILCHIMP_u'),
-            'id'     => getenv('MAILCHIMP_id'),
-        ];
-
-        //url-ify the data for the POST
-        $fields_string = '';
-        foreach($mcData as $key=>$value) {
-            $fields_string .= $key.'='.$value.'&';
-        }
-        rtrim($fields_string, '&');
-
-        //open connection
-        $ch = curl_init();
-
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL, $mcUrl);
-        curl_setopt($ch,CURLOPT_POST, count($mcData));
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-        curl_setopt($ch,CURLOPT_FOLLOWLOCATION, true);
-
-        //execute post
-        $result = curl_exec($ch);
-
-        //close connection
-        curl_close($ch);
-    }
-
-    public function thanks(Request $request)
-    {
-        return view('thanks')->with('success', "Thanks! Please check your inbox for a confirmation email.");
+        return redirect('/')->with('success', "Thanks! We'll send you an invite as soon as one becomes available.");
     }
 
     public function contact(Request $request)

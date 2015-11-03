@@ -27,7 +27,7 @@ class AdminController extends Controller
         $users = User::with('invoices', 'clients')->get();
         $unregistered = Email::whereRaw('email not in(select email from users)')->whereNotNull('key')->get();
         $contacts = Contact::where('replied', false)->get();
-        $usage = Reporter::invoices(7);
+        $usage = Reporter::invoices(6);
         return view('admin.index', compact('emails', 'contacts', 'users', 'unregistered', 'usage'));
     }
 

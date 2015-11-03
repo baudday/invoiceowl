@@ -11,6 +11,8 @@ use Mail;
 use App\Email;
 use App\Contact;
 use App\User;
+use App\Invoice;
+use App\Lib\Reporter;
 
 class AdminController extends Controller
 {
@@ -25,7 +27,8 @@ class AdminController extends Controller
         $users = User::with('invoices', 'clients')->get();
         $unregistered = Email::whereRaw('email not in(select email from users)')->whereNotNull('key')->get();
         $contacts = Contact::where('replied', false)->get();
-        return view('admin.index', compact('emails', 'contacts', 'users', 'unregistered'));
+        $usage = Reporter::invoices(7);
+        return view('admin.index', compact('emails', 'contacts', 'users', 'unregistered', 'usage'));
     }
 
     public function respond(Request $request, $id)

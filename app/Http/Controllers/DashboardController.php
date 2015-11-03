@@ -19,7 +19,7 @@ class DashboardController extends Controller
         'month' => [
           'sent_count' => $this->userInvoices()->published()->month('sent_date')->count(),
           'paid_count' => $this->userInvoices()->published()->month('sent_date')->paid()->count(),
-          'collected'  => $this->userInvoices()->published()->paid()->month('sent_date')->sum('total')
+          'collected'  => $this->userInvoices()->published()->paid()->month('updated_at')->sum('total')
         ],
         'all_time' => [
           'sent_count' => $this->userInvoices()->published()->count(),

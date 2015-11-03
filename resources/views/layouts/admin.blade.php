@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/app.css" charset="utf-8">
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 </head>
 <body>
 
@@ -13,10 +14,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-2">
-            <a href="/admin" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-home"></span> Home</a>
-        </div>
-        <div class="col-sm-8">
+        <div class="col-xs-12">
             @yield('content')
         </div>
     </div>

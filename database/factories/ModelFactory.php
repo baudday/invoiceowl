@@ -38,3 +38,25 @@ $factory->defineAs(App\User::class, 'admin', function ($faker) use ($factory) {
   $user = $factory->raw(App\User::class);
   return array_merge($user, ['is_admin' => true]);
 });
+
+$factory->define(App\Client::class, function (Faker\Generator $faker) {
+  return ['name' => $faker->company, 'email' => $faker->email];
+});
+
+$factory->define(App\Invoice::class, function (Faker\Generator $faker) {
+  return [
+    'number' => $faker->randomNumber,
+    'description' => $faker->paragraph,
+    'due_date' => $faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
+    'sent_date' => $faker->date,
+    'published' => true
+  ];
+});
+
+$factory->define(App\LineItem::class, function (Faker\Generator $faker) {
+  return [
+    'description' => $faker->sentence,
+    'quantity' => $faker->randomNumber,
+    'unit_price' => $faker->randomNumber(2)
+  ];
+});

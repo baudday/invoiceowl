@@ -22,4 +22,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         return $app;
     }
+
+    public function userWithClient($userOverrides = [])
+    {
+      $user = factory(App\User::class)->create();
+      $user->clients()->save(factory(App\Client::class)->make());
+      return $user;
+    }
+
+    public function userWithClientAndInvoices($invoiceOverrides = [], $userOverrides = [])
+    {
+      $user = $this->userWithClient($userOverrides);
+      $client = $user->clients()->first();
+      factory(App\Invoice::class, 3)->create($invoiceOverrides)->each(function ($invoice) use ($client, $user) {
+        $client->invoices()->save($invoice);
+        $user->invoices()->save($invoice);
+      });
+      return $user;
+    }
 }

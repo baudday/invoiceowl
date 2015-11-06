@@ -23,12 +23,18 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $reporter = new Reporter(6);
         $emails = Email::where('key', null)->get();
-        $users = User::with('invoices', 'clients')->get();
-        $unregistered = Email::whereRaw('email not in(select email from users)')->whereNotNull('key')->get();
+        $user_count = User::with('invoices', 'clients')->count();
+        $unregistered_count = Email::whereRaw('email not in(select email from users)')->whereNotNull('key')->count();
         $contacts = Contact::where('replied', false)->get();
-        $usage = Reporter::invoices(6);
-        return view('admin.index', compact('emails', 'contacts', 'users', 'unregistered', 'usage'));
+        $users = $reporter->users();
+        $usage = $reporter->invoices();
+        $clients = $reporter->clients();
+        return view('admin.index', compact(
+          'emails', 'contacts', 'user_count', 'unregistered_count', 'users',
+          'usage', 'clients'
+        ));
     }
 
     public function respond(Request $request, $id)

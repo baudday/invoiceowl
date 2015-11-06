@@ -13,7 +13,7 @@ class AddSentDateColumnToInvoicesTable extends Migration
     public function up()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->date('sent_date');
+            $table->date('sent_date')->nullable();
         });
     }
 

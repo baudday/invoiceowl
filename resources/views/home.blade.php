@@ -31,7 +31,7 @@
         <div class="input-group">
             <input name="email" type="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}" required tabindex="1">
             <span class="input-group-btn">
-                <button type="submit" class="btn btn-default btn-lg" tabindex="1"><span class="glyphicon glyphicon-send"></span></button>
+                <button name="email_submit" type="submit" class="btn btn-default btn-lg" tabindex="1"><span class="glyphicon glyphicon-send"></span></button>
             </span>
         </div>
     </form>
@@ -159,7 +159,7 @@
                 <label for="">Message</label>
                 <textarea name="message" id="message" class="form-control input-lg" rows="3" value="{{ old('message') }}" required tabindex="1"></textarea>
             </div>
-            <button type="submit" class="btn btn-default btn-lg" tabindex="1">Send</button>
+            <button name="contact_submit" type="submit" class="btn btn-default btn-lg" tabindex="1">Send</button>
         </form>
     </div>
 </div>

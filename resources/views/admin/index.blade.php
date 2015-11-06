@@ -69,7 +69,7 @@
         <canvas style="width: 100%;" id="users_donut"></canvas>
         <hr>
         <h4 style="text-align:center;">
-          {{ number_format(((count($users))/(count($users) + $unregistered_count)) * 100, 2) }}%
+          {{ number_format((($user_count)/($user_count + $unregistered_count)) * 100, 2) }}%
           response rate
         </h4>
       </div>

@@ -23,7 +23,7 @@ class Reporter {
     $ret = [];
     foreach ($this->period as $day) {
       $key = $day->format('l');
-      $ret[$key] = Invoice::where('sent_date', $day->format('Y-m-d'))->count();
+      $ret[$key] = Invoice::where('sent_date', $day)->count();
     }
     return $ret;
   }
@@ -33,7 +33,7 @@ class Reporter {
     $ret = [];
     foreach ($this->period as $day) {
       $key = $day->format('l');
-      $ret[$key] = User::where('created_at', '<=', $day->format('Y-m-d'))->count();
+      $ret[$key] = User::whereRaw('date(created_at) <= ?', [$day->format('Y-m-d')])->count();
     }
     return $ret;
   }
@@ -43,7 +43,7 @@ class Reporter {
     $ret = [];
     foreach ($this->period as $day) {
       $key = $day->format('l');
-      $ret[$key] = Client::where('created_at', '<=', $day->format('Y-m-d'))->count();
+      $ret[$key] = Client::whereRaw('date(created_at) <= ?', [$day->format('Y-m-d')])->count();
     }
     return $ret;
   }

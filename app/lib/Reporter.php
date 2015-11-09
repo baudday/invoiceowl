@@ -23,7 +23,7 @@ class Reporter {
     $ret = [];
     foreach ($this->period as $day) {
       $key = $day->format('l');
-      $ret[$key] = Invoice::where('sent_date', $day)->count();
+      $ret[$key] = Invoice::whereRaw('date(sent_date) = ?', [$day->format('Y-m-d')])->count();
     }
     return $ret;
   }

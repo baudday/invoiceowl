@@ -52,4 +52,19 @@ class Invoice extends Model
     {
       return $q->where(\DB::raw("MONTH($field)"), date('n'));
     }
+
+    public function save(array $options = [])
+    {
+      $this->total = $this->calculateTotal();
+      parent::save($options);
+    }
+
+    private function calculateTotal()
+    {
+      $total = 0;
+      foreach ($this->lineItems()->get() as $item) {
+        $total += $item->totalPrice();
+      }
+      return $total;
+    }
 }

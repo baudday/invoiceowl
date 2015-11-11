@@ -54,7 +54,6 @@ class ClientTemplatesController extends Controller
      */
     public function show(Request $request, $client_id, $template_id)
     {
-        $client = $this->userClients()->findOrFail($client_id);
         $invoice = $this->userInvoices()->firstOrCreate([
           'number' => $request->input('number'),
           'user_id' => \Auth::user()->id,
@@ -76,23 +75,18 @@ class ClientTemplatesController extends Controller
           ]);
         }
 
-        $lineItems = LineItem::where('invoice_id', $invoice->id)->get();
-
-        $total = 0;
-        foreach ($lineItems as $item) {
-          $total += $item->totalPrice();
-        }
 
         $data = [
           'description' => $request->input('description'),
           'due_date' => date('Y-m-d', strtotime($request->input('due_date'))),
-          'template_id' => $template_id,
-          'total' => $total
+          'template_id' => $template_id
         ];
 
         $invoice->update($data);
-
-        $template = Template::find($invoice->template_id);
+        $client = $invoice->client()->first();
+        $total = $invoice->total;
+        $lineItems = $invoice->lineItems()->get();
+        $template = $invoice->template()->first();
 
         return [
           'body' => DbView::make($template)

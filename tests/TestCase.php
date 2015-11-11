@@ -30,14 +30,21 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
       return $user;
     }
 
-    public function userWithClientAndInvoices($invoiceOverrides = [], $userOverrides = [])
+    public function userWithClientAndInvoices($invoiceOverrides = [], $userOverrides = [], $invoiceCount = 3)
     {
       $user = $this->userWithClient($userOverrides);
       $client = $user->clients()->first();
-      factory(App\Invoice::class, 3)->create($invoiceOverrides)->each(function ($invoice) use ($client, $user) {
+      if ($invoiceCount > 1) {
+        factory(App\Invoice::class, $invoiceCount)->create($invoiceOverrides)->each(function ($invoice) use ($client, $user) {
+          $client->invoices()->save($invoice);
+          $user->invoices()->save($invoice);
+        });
+      }
+      else {
+        $invoice = factory(App\Invoice::class)->create($invoiceOverrides);
         $client->invoices()->save($invoice);
         $user->invoices()->save($invoice);
-      });
+      }
       return $user;
     }
 }

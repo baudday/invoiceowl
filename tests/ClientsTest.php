@@ -101,8 +101,8 @@ class ClientsTest extends TestCase
     $client1 = $user1->clients()->first();
     $client2 = $user2->clients()->first();
 
-    $res = $this->actingAs($user1)
+    $this->actingAs($user1)
          ->call('GET', "/dashboard/clients/$client2->id");
-    $this->assertEquals(404, $res->status());
+    $this->assertResponseStatus(404);
   }
 }

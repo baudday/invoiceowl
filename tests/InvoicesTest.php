@@ -27,20 +27,31 @@ class InvoicesTest extends TestCase
     $client = $user->clients()->first();
     $invoice = factory(App\Invoice::class, 'stub')->make();
     $lineItems = factory(App\LineItem::class, 3)->make();
+    $taxItems = factory(App\TaxItem::class, 3)->make();
     $items = [];
     $quantities = [];
     $prices = [];
+    $taxes = [];
+    $percentages = [];
+    $subtotal = 0;
     $total = 0;
 
-    $lineItems->each(function ($item) use (&$items, &$quantities, &$prices, &$total) {
+    $lineItems->each(function ($item) use (&$items, &$quantities, &$prices, &$subtotal) {
       $items[] = $item->description;
       $quantities[] = $item->quantity;
       $prices[] = $item->unit_price;
-      $total += $item->totalPrice();
+      $subtotal += $item->totalPrice();
+    });
+
+    $total = $subtotal;
+
+    $taxItems->each(function ($item) use (&$taxes, &$percentages) {
+      $taxes[] = $item->description;
+      $percentages[] = $item->percentage;
     });
 
     $template = App\Template::first();
-    $qs = http_build_query(array_merge($invoice->toArray(), compact('items', 'quantities', 'prices')));
+    $qs = http_build_query(array_merge($invoice->toArray(), compact('items', 'quantities', 'prices', 'taxes', 'percentages')));
 
     $this->actingAs($user)
          ->get("/api/v1/clients/$client->id/templates/$template->id?$qs")
@@ -49,9 +60,22 @@ class InvoicesTest extends TestCase
            'invoice_id' => App\Invoice::where('client_id', $client->id)->orderBy('created_at', 'desc')->first()->id
          ]);
 
+    $new_invoice = App\Invoice::where('client_id', $client->id)->orderBy('created_at', 'desc')->first();
+
     $lineItems->each(function ($item) {
       $this->seeInDatabase('line_items', $item->toArray());
     });
+
+    $taxItems->each(function ($item) {
+      $this->seeInDatabase('tax_items', $item->toArray());
+    });
+
+    foreach($new_invoice->taxItems as $item) {
+      $total += $item->totalPrice();
+    };
+
+    $this->assertEquals(number_format($new_invoice->subtotal, 2), number_format($subtotal, 2));
+    $this->assertEquals(number_format($new_invoice->total, 2), number_format($total, 2));
   }
 
   public function test_it_displays_unpaid_invoices()

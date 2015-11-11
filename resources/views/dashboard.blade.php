@@ -45,7 +45,7 @@
           <div class="panel-body">
             <h3>Collected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($month['collected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($month['collected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
           <div class="panel-body">
             <h3>Uncollected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -116,7 +116,7 @@
           <div class="panel-body">
             <h3>Collected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($all_time['collected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($all_time['collected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
           <div class="panel-body">
             <h3>Uncollected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
           </div>
         </div>
       </div>

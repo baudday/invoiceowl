@@ -28,7 +28,7 @@
       <td class="vcenter">{{ $invoice->description }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->sent_date)) }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->due_date)) }}</td>
-      <td class="vcenter">{{ $invoice->total }}</td>
+      <td class="vcenter">{{ \Auth::user()->currency }}{{ $invoice->total }}</td>
       <td class="vcenter">
         @include('invoices.partials.actions')
       </td>

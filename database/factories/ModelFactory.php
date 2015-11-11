@@ -65,3 +65,10 @@ $factory->define(App\LineItem::class, function (Faker\Generator $faker) {
     'unit_price' => $faker->randomNumber(2)
   ];
 });
+
+$factory->define(App\TaxItem::class, function (Faker\Generator $faker) {
+  return [
+    'description' => $faker->word,
+    'percentage' => $faker->randomNumber(1)
+  ];
+});

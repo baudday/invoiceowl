@@ -55,17 +55,17 @@
 
       <div class='row'>
         <div class='form-group'>
-          <div class='col-sm-8'>
+          <div class='col-xs-8'>
             <label>Item Description</label>
             <input name='item[]' type='text' class='form-control input-lg' required>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <label>Qty</label>
             <input type='number' name='quantity[]' class='form-control input-lg' required>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <label>Unit Price</label>
             <input type="number" name='price[]' class='form-control input-lg' min="0.00" step="0.50" max="9999.99" required>
           </div>
@@ -75,16 +75,53 @@
       @for($i = 0; $i < 3; $i++)
       <div class='row'>
         <div class='form-group'>
-          <div class='col-sm-8'>
+          <div class='col-xs-8'>
             <input name='item[]' type='text' class='form-control input-lg'>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <input type='number' name='quantity[]' class='form-control input-lg'>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <input type="number" name='price[]' class='form-control input-lg' min="0.00" step="0.50" max="9999.99">
+          </div>
+        </div>
+      </div>
+      @endfor
+
+      <div class='row'>
+        <div class='form-group'>
+          <div class='col-xs-12'>
+            <h3>Taxes (optional)</h3>
+            <hr>
+          </div>
+        </div>
+      </div>
+
+      <div class='row'>
+        <div class='form-group'>
+          <div class='col-xs-10'>
+            <label>Type</label>
+            <input name='tax[]' type='text' class='form-control input-lg' placeholder="Sales">
+          </div>
+
+          <div class='col-xs-2'>
+            <label>Percent</label>
+            <input type='number' name='percent[]' class='form-control input-lg' placeholder="7.5">
+          </div>
+        </div>
+      </div>
+
+      @for($i = 0; $i < 2; $i++)
+      <div class='row'>
+        <div class='form-group'>
+          <div class='col-xs-10'>
+            <input name='tax[]' type='text' class='form-control input-lg' placeholder="Sales">
+          </div>
+
+          <div class='col-xs-2'>
+            <input type='number' name='percent[]' class='form-control input-lg' placeholder="7.5">
           </div>
         </div>
       </div>
@@ -190,7 +227,9 @@
       'invoice_id': invoice_id,
       'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
       'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
-      'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
+      'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get(),
+      'taxes': $("input[name='tax\\[\\]']").map(function(){return $(this).val();}).get(),
+      'percentages': $("input[name='percent\\[\\]']").map(function(){return $(this).val();}).get()
     };
   }
 </script>

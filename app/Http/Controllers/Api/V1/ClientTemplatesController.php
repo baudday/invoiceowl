@@ -12,6 +12,7 @@ use App\Client;
 use App\Invoice;
 use App\Template;
 use App\LineItem;
+use App\TaxItem;
 
 class ClientTemplatesController extends Controller
 {
@@ -60,12 +61,12 @@ class ClientTemplatesController extends Controller
           'client_id' => $client_id
         ]);
 
-        // Delete all line items first
+        // Delete all line items and tax items first
         LineItem::where('invoice_id', $invoice->id)->delete();
+        TaxItem::where('invoice_id', $invoice->id)->delete();
 
         $quantities = $request->input('quantities');
         $prices = $request->input('prices');
-
         foreach (array_filter($request->input('items')) as $key=>$item) {
           $lineItem = LineItem::create([
             'description' => $item,
@@ -75,6 +76,16 @@ class ClientTemplatesController extends Controller
           ]);
         }
 
+        $invoice->update();
+
+        $percentages = $request->input('percentages');
+        foreach (array_filter($request->input('taxes')) as $key=>$item) {
+          $taxItem = TaxItem::create([
+            'description' => $item,
+            'invoice_id' => $invoice->id,
+            'percentage' => $percentages[$key],
+          ]);
+        }
 
         $data = [
           'description' => $request->input('description'),
@@ -83,6 +94,7 @@ class ClientTemplatesController extends Controller
         ];
 
         $invoice->update($data);
+
         $client = $invoice->client()->first();
         $total = $invoice->total;
         $lineItems = $invoice->lineItems()->get();

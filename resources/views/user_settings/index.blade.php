@@ -38,28 +38,54 @@
 
       <input type="hidden" id='logo' name="logo" value="{{ $settings->logo }}">
 
-      <div class='form-group'>
-        <label for='name'>Name</label>
-        <input type='text' name='name' class='form-control input-lg' value='{{ $settings->name }}' required>
+      <div class="row">
+        <div class="col-sm-10">
+          <div class='form-group'>
+            <label for='name'>Name</label>
+            <input tabindex="1" type='text' name='name' class='form-control input-lg' value='{{ $settings->name }}' required>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class='form-group'>
+            <label for='name'>Currency</label>
+            <input tabindex="1" type='text' name='currency' class='form-control input-lg' value='{{ $settings->currency }}' required>
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-        <label for='company_name'>Company Name (Optional)</label>
-        <input type='text' name='company_name' class='form-control input-lg' value='{{ $settings->company_name }}' placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+            <label for='company_name'>Company Name (Optional)</label>
+            <input tabindex="1" type='text' name='company_name' class='form-control input-lg' value='{{ $settings->company_name }}' placeholder="Acme Corp" data-toggle="tooltip" data-placement="top" title="If set, we will use this instead of your name on invoices">
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-        <label for='email'>Email</label>
-        <input type='email' name='email' class='form-control input-lg' value='{{ $settings->email }}' disabled>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+            <label for='email'>Email</label>
+            <input tabindex="1" type='email' name='email' class='form-control input-lg' value='{{ $settings->email }}' disabled>
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-        <label for='name'>Phone Number</label>
-        <input type='text' name='phone_number' class='form-control input-lg' value='{{ $settings->phone_number }}' placeholder="9185551234">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+            <label for='name'>Phone Number</label>
+            <input tabindex="1" type='text' name='phone_number' class='form-control input-lg' value='{{ $settings->phone_number }}' placeholder="9185551234">
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-          <button type='submit' class='btn btn-lg btn-default'><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+              <button tabindex="1" type='submit' class='btn btn-lg btn-default'><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
+          </div>
+        </div>
       </div>
 
     </form>

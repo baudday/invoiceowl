@@ -30,7 +30,7 @@
 
           <div class='col-sm-3'>
             <label for='custom_id'>Custom ID</label>
-            <input id="custom_id" name='custom_id' type='text' class='form-control input-lg' value="{{ old('custom_id') }}">
+            <input id="custom_id" name='custom_id' type='text' class='form-control input-lg' value="{{ old('custom_id') }}" data-toggle="tooltip" data-placement="top" title="If set, we will use this instead of the Owl ID on invoices">
           </div>
 
           <div class='col-sm-6'>
@@ -188,6 +188,8 @@
   var invoice_id = 0;
   var template_id = 0;
   $(function() {
+
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('.template').on('click', function() {
       template_id = $(this).data('template');

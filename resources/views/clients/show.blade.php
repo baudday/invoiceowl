@@ -13,7 +13,7 @@
 <table class='table table-bordered '>
   <thead>
     <tr>
-      <th>ID</th>
+      <th>Owl ID</th>
       <th>Description</th>
       <th>Date Sent</th>
       <th>Due Date</th>

@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    protected $fillable = ['number', 'description', 'due_date', 'paid', 'total', 'subtotal', 'client_id', 'user_id', 'template_id', 'published', 'pdf_path', 'sent_date'];
+    protected $fillable = ['owl_id', 'custom_id', 'description', 'due_date',
+                           'paid', 'total', 'subtotal', 'client_id', 'user_id',
+                           'template_id', 'published', 'pdf_path', 'sent_date'];
 
     public function client()
     {
@@ -28,9 +30,14 @@ class Invoice extends Model
       return $this->belongsTo('\App\Template');
     }
 
+    public function identifier()
+    {
+      return $this->custom_id ?: $this->owl_id;
+    }
+
     public function scopeLatest($q)
     {
-      return $q->orderBy('number', 'desc');
+      return $q->orderBy('owl_id', 'desc');
     }
 
     public function scopePublished($q)

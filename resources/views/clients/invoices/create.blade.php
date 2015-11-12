@@ -23,12 +23,17 @@
 
       <div class='row'>
         <div class='form-group'>
-          <div class='col-sm-4'>
-            <label for='number'>#</label>
-            <input id="number" name='number' type='text' class='form-control input-lg' placeholder='1' value="{{ $invoice_number }}" readonly="readonly" required>
+          <div class='col-sm-3'>
+            <label for='owl_id'>Owl ID</label>
+            <input id="owl_id" name='owl_id' type='text' class='form-control input-lg' placeholder='1' value="{{ $owl_id }}" readonly="readonly" required>
           </div>
 
-          <div class='col-sm-8'>
+          <div class='col-sm-3'>
+            <label for='custom_id'>Custom ID</label>
+            <input id="custom_id" name='custom_id' type='text' class='form-control input-lg' value="{{ old('custom_id') }}">
+          </div>
+
+          <div class='col-sm-6'>
             <label for='due_date'>Due Date</label>
             <input id="due_date" type='date' name='due_date' class='form-control input-lg' value="{{ old('due_date') }}" required>
           </div>
@@ -221,7 +226,8 @@
 
   function getData() {
     return {
-      'number': $('#number').val(),
+      'owl_id': $('#owl_id').val(),
+      'custom_id': $('#custom_id').val(),
       'due_date': $('#due_date').val(),
       'description': $('#description').val(),
       'invoice_id': invoice_id,

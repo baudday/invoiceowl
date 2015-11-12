@@ -45,7 +45,7 @@ $factory->define(App\Client::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Invoice::class, function (Faker\Generator $faker) {
   return [
-    'number' => $faker->randomNumber(2),
+    'owl_id' => $faker->randomNumber(2),
     'description' => $faker->paragraph,
     'due_date' => $faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
     'sent_date' => $faker->date,

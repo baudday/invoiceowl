@@ -13,7 +13,7 @@
 <table class='table table-bordered '>
   <thead>
     <tr>
-      <th>#</th>
+      <th>ID</th>
       <th>Description</th>
       <th>Date Sent</th>
       <th>Due Date</th>
@@ -24,7 +24,7 @@
   <tbody>
     @foreach($client->invoices as $invoice)
     <tr class="{{ $invoice->paid ? 'success' : 'danger' }}">
-      <td class="vcenter">{{ $invoice->number }}</td>
+      <td class="vcenter">{{ $invoice->owl_id }}</td>
       <td class="vcenter">{{ $invoice->description }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->sent_date)) }}</td>
       <td class="vcenter">{{ date('F d, Y', strtotime($invoice->due_date)) }}</td>

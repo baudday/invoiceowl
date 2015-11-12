@@ -20,7 +20,7 @@
       <label for='logo'>Logo (Click to change)</label>
       <br />
       <div class='logo-img-container'>
-        <img id='logo_img' src='{{ $settings->logo }}' />
+        <img id='logo_img' src='{{ $settings->logo ?: "//placehold.it/200x200" }}' />
       </div>
       <br />
       <div class="img-error" style="display:none;">

@@ -13,44 +13,79 @@
                         {!! csrf_field() !!}
 
                         <div class='form-group'>
-                          <label for='logo'>Logo (Optional)</label>
-                          <br />
-                          <div class='logo-img-container'>
-                            <img id='logo_img' src='{{ old("logo") ?: "//placehold.it/200x200" }}' />
-                          </div>
-                          <br />
-                          <div class="img-error" style="display:none;">
-                            <small class="alert alert-danger img-error-message"></small>
-                          </div>
-                          <input type='file' id='_logo' style='display:none;'>
+                            <label for='logo'>Logo (Optional)</label>
+                            <br />
+                            <div class='logo-img-container'>
+                                <img id='logo_img' src='{{ old("logo") ?: "//placehold.it/200x200" }}' />
+                            </div>
+                            <br />
+                            <div class="img-error" style="display:none;">
+                                <small class="alert alert-danger img-error-message"></small>
+                            </div>
+                            <input type='file' id='_logo' style='display:none;'>
                         </div>
                         <input type="hidden" id='logo' name="logo" value="{{ old('logo') }}">
 
                         <hr>
 
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" class="form-control input-lg" id="name" placeholder="Joe Namath" value="{{ old('name') }}">
+                        <div class="row">
+                          <div class="col-sm-10">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control input-lg" id="name" placeholder="Joe Namath" value="{{ old('name') }}">
+                            </div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="currency">Currency</label>
+                                <input type="text" name="currency" class="form-control input-lg" id="currency" placeholder="$" value="{{ old('currency') ?: '$' }}">
+                            </div>
+                          </div>
                         </div>
 
-                        <div class='form-group'>
-                          <label for='company_name'>Company Name (Optional)</label>
-                          <input type='text' name='company_name' class='form-control input-lg' value="{{ old('company_name') }}" placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class='form-group'>
+                              <label for='company_name'>Company Name (Optional)</label>
+                              <input type='text' name='company_name' class='form-control input-lg' value="{{ old('company_name') }}" placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+                            </div>
+                          </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" class="form-control input-lg" id="email" placeholder="ex@mp.le" value="{{ old('email') }}">
+                            </div>
+                          </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control input-lg" id="password">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number (Optional)</label>
+                                <input type="phone_number" name="phone_number" class="form-control input-lg" id="phone_number" placeholder="9185551234" value="{{ old('phone_number') }}">
+                            </div>
+                          </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password_confirmation">Confirm Password</label>
-                            <input type="password" name="password_confirmation" class="form-control input-lg" id="password_confirmation">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" class="form-control input-lg" id="password">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirm Password</label>
+                                <input type="password" name="password_confirmation" class="form-control input-lg" id="password_confirmation">
+                            </div>
+                          </div>
                         </div>
 
                         <button type="submit" class="btn btn-default btn-lg">Register</button> or <a href="/auth/login">Sign In</a>

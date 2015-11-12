@@ -45,7 +45,9 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
+            'currency' => 'required|max:1',
             'email' => 'required|email|max:255|unique:users',
+            'phone_number' => 'numeric|digits:10',
             'company_name' => 'max:255',
             'password' => 'required|confirmed|min:6'
         ]);
@@ -64,7 +66,9 @@ class AuthController extends Controller
             'email' => $data['email'],
             'company_name' => $data['company_name'],
             'password' => bcrypt($data['password']),
-            'logo' => $data['logo']
+            'logo' => $data['logo'],
+            'currency' => $data['currency'],
+            'phone_number' => $data['phone_number']
         ]);
     }
 }

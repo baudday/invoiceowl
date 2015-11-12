@@ -15,6 +15,10 @@ class AuthenticateBetaInvite
      */
     public function handle($request, Closure $next)
     {
+        if(getenv('APP_ENV') == 'local') {
+          return $next($request);
+        }
+
         if (!$request->input('email') || !$request->input('key')) {
           if ($request->ajax()) {
               return response('Not Found.', 404);

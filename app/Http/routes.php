@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
 // API Routes
 Route::group(['prefix' => 'api/v1'], function() {
+  Route::resource('users', 'Api\V1\UsersController', ['only' => ['update']]);
   Route::group(['middleware' => 'auth'], function() {
     Route::resource('clients.templates', 'Api\V1\ClientTemplatesController', ['only' => ['show']]);
     Route::resource('settings', 'Api\V1\UserSettingsController', ['only' => ['update']]);

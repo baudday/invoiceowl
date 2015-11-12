@@ -2,22 +2,31 @@
 
 @section('content')
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form action="/auth/register" method="POST" role="form">
-                        <legend>Register</legend>
+                        <legend>Register for InvoiceOwl</legend>
 
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Oops!</strong>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </div>
-                        @endif
+                        @include('layouts.partials.errors')
 
                         {!! csrf_field() !!}
+
+                        <div class='form-group'>
+                          <label for='logo'>Logo (Optional)</label>
+                          <br />
+                          <div class='logo-img-container'>
+                            <img id='logo_img' src='{{ old("logo") ?: "//placehold.it/200x200" }}' />
+                          </div>
+                          <br />
+                          <div class="img-error" style="display:none;">
+                            <small class="alert alert-danger img-error-message"></small>
+                          </div>
+                          <input type='file' id='_logo' style='display:none;'>
+                        </div>
+                        <input type="hidden" id='logo' name="logo" value="{{ old('logo') }}">
+
+                        <hr>
 
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -53,9 +62,57 @@
 @stop
 
 @section('body-scripts')
-<script type="text/javascript">
-  $(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>
+  <script type="text/javascript">
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      var href = '{{ route("api.v1.users.update") }}';
+      $.ajax({
+        type: 'put',
+        url: href,
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        data: {
+          logo: reader.result
+        }
+      }).success(function(body) {
+        $('#logo_img').attr('src', body.url);
+        $('#logo').val(body.url);
+      });
+    };
+
+    $(function() {
+      $('#logo_img').on('click', function() {
+        $('.img-error').hide();
+        $('#_logo').click();
+      });
+
+      $('#_logo').on('change', function() {
+        var file = $('#_logo').prop('files')[0];
+
+        if (file) {
+          if (!file.type.match(/image.*/)) {
+            showError('Please only upload images');
+            return;
+          }
+
+          if (file.size > 2000000) {
+            showError('Files must be under 2MB. Yours is ' + Math.round(file.size/2000000*100)/100 + 'MB');
+            return;
+          }
+
+          $('#logo_img').attr('src', '/img/loader.gif');
+          reader.readAsDataURL(file);
+        }
+
+      });
+
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function showError(msg) {
+      $('.img-error-message').text(msg);
+      $('.img-error').show();
+    }
+  </script>
 @stop

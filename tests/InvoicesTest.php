@@ -17,7 +17,7 @@ class InvoicesTest extends TestCase
     $this->actingAs($user)
          ->visit("/dashboard/clients/$client->id/invoices/create")
          ->see("Invoice $client->name")
-         ->assertViewHas('invoice_number', $client->invoices()->published()->count() + 1);
+         ->assertViewHas('owl_id', $client->invoices()->published()->count() + 1);
   }
 
   // TODO: Need to figure out a way to test template preview

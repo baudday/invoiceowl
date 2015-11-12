@@ -56,7 +56,7 @@ class ClientTemplatesController extends Controller
     public function show(Request $request, $client_id, $template_id)
     {
         $invoice = $this->userInvoices()->firstOrCreate([
-          'number' => $request->input('number'),
+          'owl_id' => $request->input('owl_id'),
           'user_id' => \Auth::user()->id,
           'client_id' => $client_id
         ]);
@@ -90,7 +90,8 @@ class ClientTemplatesController extends Controller
         $data = [
           'description' => $request->input('description'),
           'due_date' => date('Y-m-d', strtotime($request->input('due_date'))),
-          'template_id' => $template_id
+          'template_id' => $template_id,
+          'custom_id' => $request->input('custom_id')
         ];
 
         $invoice->update($data);

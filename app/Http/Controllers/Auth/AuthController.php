@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Address;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -49,7 +50,13 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'phone_number' => 'numeric|digits:10',
             'company_name' => 'max:255',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:6',
+            'line_one' => 'max:255',
+            'line_two' => 'max:255',
+            'city' => 'max:255',
+            'state' => 'max:255',
+            'zip' => 'max:255',
+            'country' => 'max:255'
         ]);
     }
 
@@ -61,7 +68,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'company_name' => $data['company_name'],
@@ -70,5 +77,9 @@ class AuthController extends Controller
             'currency' => $data['currency'],
             'phone_number' => $data['phone_number']
         ]);
+
+        $user->address()->save(Address::create(array_only($data, ['line_one', 'line_two', 'city', 'state', 'zip', 'country'])));
+
+        return $user;
     }
 }

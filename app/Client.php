@@ -21,4 +21,9 @@ class Client extends Model
     {
       return $this->hasMany('App\Invoice');
     }
+
+    public function address()
+    {
+      return $this->hasOne('App\Address');
+    }
 }

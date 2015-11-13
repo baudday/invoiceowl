@@ -65,7 +65,7 @@
                           <div class="col-xs-12">
                             <div class="form-group">
                                 <label for="phone_number">Phone Number (Optional)</label>
-                                <input type="phone_number" name="phone_number" class="form-control input-lg" id="phone_number" placeholder="9185551234" value="{{ old('phone_number') }}">
+                                <input type="text" name="phone_number" class="form-control input-lg" id="phone_number" placeholder="9185551234" value="{{ old('phone_number') }}">
                             </div>
                           </div>
                         </div>

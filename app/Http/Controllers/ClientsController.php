@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Client;
+use App\Address;
 
 class ClientsController extends Controller
 {
@@ -42,10 +43,18 @@ class ClientsController extends Controller
     {
         $this->validate($request, [
           'email' => 'required|email',
-          'name' => 'required'
+          'name' => 'required',
+          'line_one' => 'max:255',
+          'line_two' => 'max:255',
+          'city' => 'max:255',
+          'state' => 'max:255',
+          'zip' => 'max:255',
+          'country' => 'max:255'
         ]);
 
+        $address = Address::create($request->only(['line_one', 'line_two', 'city', 'state', 'zip', 'country']));
         $client = $this->userClients()->create($request->only(['email', 'name']));
+        $client->address()->save($address);
 
         return redirect()->route('dashboard.clients.show', $client->id);
     }
@@ -75,7 +84,8 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $client = $this->userClients()->findOrFail($id);
+        Address::firstOrCreate(['client_id' => $id]);
+        $client = $this->userClients()->with('address')->findOrFail($id);
         return view('clients/edit', compact('client'));
     }
 
@@ -90,11 +100,20 @@ class ClientsController extends Controller
     {
         $this->validate($request, [
           'email' => 'required|email',
-          'name' => 'required'
+          'name' => 'required',
+          'line_one' => 'max:255',
+          'line_two' => 'max:255',
+          'city' => 'max:255',
+          'state' => 'max:255',
+          'zip' => 'max:255',
+          'country' => 'max:255'
         ]);
-        $this->userClients()->findOrFail($id)->update($request->only(['email', 'name']));
+        $client = $this->userClients()->findOrFail($id);
+        $client->update($request->only(['email', 'name']));
+        $client->address()->update($request->only(['line_one', 'line_two', 'city', 'state', 'zip', 'country']));
+        $request->session()->flash('success', "$client->name's settings have been updated!");
 
-        return redirect()->route('dashboard.clients.show', $id);
+        return redirect()->route('dashboard.clients.edit', $id);
     }
 
     /**

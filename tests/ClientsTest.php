@@ -13,6 +13,7 @@ class ClientsTest extends TestCase
   {
     $user = factory(App\User::class)->create();
     $client = factory(App\Client::class)->make();
+    $address = factory(App\Address::class)->make();
 
     $this->actingAs($user)
          ->visit('/dashboard/clients')
@@ -20,9 +21,16 @@ class ClientsTest extends TestCase
          ->seePageIs('/dashboard/clients/create')
          ->type($client->name, 'name')
          ->type($client->email, 'email')
+         ->type($address->line_one, 'line_one')
+         ->type($address->line_two, 'line_two')
+         ->type($address->city, 'city')
+         ->type($address->state, 'state')
+         ->type($address->zip, 'zip')
+         ->type($address->country, 'country')
          ->press('Save')
          ->seePageIs(sprintf('/dashboard/clients/%d', $user->clients()->first()->id))
          ->seeInDatabase('clients', $client->toArray())
+         ->seeInDatabase('addresses', array_merge($address->toArray(), ['user_id' => null, 'client_id' => $user->clients()->first()->id]))
          ->see($client->name)
          ->see($client->email);
   }
@@ -31,6 +39,7 @@ class ClientsTest extends TestCase
   {
     $user = $this->userWithClient();
     $client = $user->clients()->first();
+    $address = factory(App\Address::class)->make();
 
     $this->actingAs($user)
          ->visit('/dashboard/clients')
@@ -39,10 +48,22 @@ class ClientsTest extends TestCase
          ->seePageIs("/dashboard/clients/$client->id/edit")
          ->type("New Name", 'name')
          ->type('new@example.com', 'email')
+         ->type($address->line_one, 'line_one')
+         ->type($address->line_two, 'line_two')
+         ->type($address->city, 'city')
+         ->type($address->state, 'state')
+         ->type($address->zip, 'zip')
+         ->type($address->country, 'country')
          ->press('Update')
-         ->seePageIs("/dashboard/clients/$client->id")
+         ->seePageIs("/dashboard/clients/$client->id/edit")
          ->see("New Name")
-         ->see("new@example.com");
+         ->see("new@example.com")
+         ->see($address->line_one)
+         ->see($address->line_two)
+         ->see($address->city)
+         ->see($address->state)
+         ->see($address->zip)
+         ->see($address->country);
   }
 
   public function test_it_deletes_a_client()

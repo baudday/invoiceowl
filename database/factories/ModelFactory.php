@@ -43,6 +43,17 @@ $factory->define(App\Client::class, function (Faker\Generator $faker) {
   return ['name' => $faker->company, 'email' => $faker->email];
 });
 
+$factory->define(App\Address::class, function (Faker\Generator $faker) {
+  return [
+    'line_one' => $faker->streetAddress,
+    'line_two' => $faker->secondaryAddress,
+    'city' => $faker->city,
+    'state' => $faker->stateAbbr,
+    'zip' => $faker->postcode,
+    'country' => $faker->country
+  ];
+});
+
 $factory->define(App\Invoice::class, function (Faker\Generator $faker) {
   return [
     'owl_id' => $faker->randomNumber(2),

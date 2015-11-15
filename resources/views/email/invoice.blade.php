@@ -8,7 +8,14 @@
 <h1>Hi {{ $client->name }},</h1>
 <h3>{{ $user->name }} has sent you an invoice using <a href="http://invoiceowl.com">InvoiceOwl</a>.</h3>
 
-<p>We have attached your invoice to this email, as a PDF. Replies will be sent
+@if (isset($email_message))
+<h3>They say...</h3>
+<p>
+<blockquote>{{ $email_message }}</blockquote>
+</p>
+@endif
+
+<h3>We have attached your invoice to this email, as a PDF. Replies will be sent
   to {{ $user->name }}
-  &lt;<a href="mailto:{{$user->email}}">{{ $user->email }}</a>&gt;.</p>
+  &lt;<a href="mailto:{{$user->email}}">{{ $user->email }}</a>&gt;.</h3>
 @stop

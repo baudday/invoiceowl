@@ -113,7 +113,7 @@
 
           <div class='col-xs-2'>
             <label>Percent</label>
-            <input type='number' name='percent[]' class='form-control input-lg' placeholder="7.5">
+            <input type='text' name='percent[]' class='form-control input-lg' placeholder="7.5">
           </div>
         </div>
       </div>
@@ -126,7 +126,7 @@
           </div>
 
           <div class='col-xs-2'>
-            <input type='number' name='percent[]' class='form-control input-lg' placeholder="7.5">
+            <input type='text' name='percent[]' class='form-control input-lg' placeholder="7.5">
           </div>
         </div>
       </div>
@@ -170,6 +170,16 @@
 </div>
 
 <input id="template_field" type="hidden" name="template">
+
+<div class='row'>
+  <div class='form-group'>
+    <div class='col-sm-12'>
+      <label for='email_message'>Email Message</label>
+      <textarea rows="5" id="email_message" name='email_message' class='form-control input-lg' placeholder='Include a custom message in the email body...' required>{{ old('email_message') }}</textarea>
+      <hr>
+    </div>
+  </div>
+</div>
 
 <div class='row'>
   <div class='form-group'>

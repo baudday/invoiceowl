@@ -91,8 +91,9 @@ if (getenv('APP_ENV') == 'local') {
       $user = \Auth::user();
       $invoice = \App\Invoice::with('client')->where('published', true)->first();
       $client = $invoice->client;
+      $message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu pharetra ex, eu viverra tortor. Quisque sed felis odio. Nam a dictum ex. Vestibulum convallis at risus at faucibus.";
 
-      return view('email/invoice', compact('user', 'invoice', 'client'));
+      return view('email/invoice', compact('user', 'invoice', 'client', 'message'));
     });
 
     Route::get('/invite', function() {

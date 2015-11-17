@@ -11,7 +11,7 @@
 @if (isset($email_message))
 <h3>They say...</h3>
 <p>
-<blockquote>{{ $email_message }}</blockquote>
+<blockquote>{!! $email_message !!}</blockquote>
 </p>
 @endif
 

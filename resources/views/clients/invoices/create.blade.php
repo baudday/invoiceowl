@@ -175,7 +175,7 @@
   <div class='form-group'>
     <div class='col-sm-12'>
       <label for='email_message'>Email Message</label>
-      <textarea id="email_message" name='email_message' class='form-control input-lg' placeholder='Include a custom message in the email body...' required>{{ old('email_message') }}</textarea>
+      <textarea rows="5" id="email_message" name='email_message' class='form-control input-lg' placeholder='Include a custom message in the email body...' required>{{ old('email_message') }}</textarea>
       <hr>
     </div>
   </div>

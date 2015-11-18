@@ -75,16 +75,16 @@ Route::group(['prefix' => 'api/v1'], function() {
 // Some debug routes
 if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
-    Route::get('/template', function() {
+    Route::get('/template/{id}', function($template_id) {
 
       $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
       $client = $invoice->client;
-      $template = \App\Template::find($invoice->template_id);
+      $template = \App\Template::find($template_id);
 
-      $total = $invoice->total;
-      $lineItems = $invoice->lineItems;
-
-      return view('templates/stub', compact('invoice', 'client', 'total', 'lineItems'));
+      return DbView::make($template)
+                ->field('body')
+                ->with(compact('client', 'invoice'))
+                ->render();
     });
 
     Route::get('/invoice/email', function() {

@@ -77,12 +77,15 @@ if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
     Route::get('/template/{id}', function($template_id) {
 
+      $composer = new App\Lib\TemplateComposer(App\Template::find($template_id));
+      $composer->compose();
+
       $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
       $client = $invoice->client;
       $template = \App\Template::find($template_id);
 
       return DbView::make($template)
-                ->field('body')
+                ->field('html')
                 ->with(compact('client', 'invoice'))
                 ->render();
     });

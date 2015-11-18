@@ -103,7 +103,7 @@ class ClientTemplatesController extends Controller
 
         return [
           'body' => DbView::make($template)
-                    ->field('body')
+                    ->field('html')
                     ->with(compact('client', 'invoice', 'total', 'lineItems'))
                     ->render(),
           'invoice_id' => $invoice->id

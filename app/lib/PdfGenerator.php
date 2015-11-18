@@ -30,7 +30,7 @@ class PdfGenerator {
   public function makeHtml(Client $client, Invoice $invoice, $total) {
     $lineItems = $invoice->lineItems()->get();
     $html = \DbView::make($this->template)
-              ->field('body')
+              ->field('html')
               ->with(compact('client', 'invoice', 'total', 'lineItems'))
               ->render();
     file_put_contents($this->html_path, $html);

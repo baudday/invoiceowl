@@ -33,7 +33,7 @@
 
       <div class='form-group'>
         <label for='email'>Body</label>
-        <textarea name='body' class='form-control input-lg' rows="20" required>{{ $template->body }}</textarea>
+        <textarea style="font-family: 'courier new';" name='body' class='form-control input-lg' rows="40" required>{{ $template->body }}</textarea>
       </div>
 
       <div class='form-group'>

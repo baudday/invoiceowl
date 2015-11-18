@@ -6,27 +6,12 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form action="/auth/register" method="POST" role="form">
-                        <legend>Register for InvoiceOwl</legend>
-
-                        @include('layouts.partials.errors')
-
+                        <h1>Register for InvoiceOwl</h1>
                         {!! csrf_field() !!}
 
-                        <div class='form-group'>
-                            <label for='logo'>Logo (Optional)</label>
-                            <br />
-                            <div class='logo-img-container'>
-                                <img id='logo_img' src='{{ old("logo") ?: "//placehold.it/200x200" }}' />
-                            </div>
-                            <br />
-                            <div class="img-error" style="display:none;">
-                                <small class="alert alert-danger img-error-message"></small>
-                            </div>
-                            <input type='file' id='_logo' style='display:none;'>
-                        </div>
-                        <input type="hidden" id='logo' name="logo" value="{{ old('logo') }}">
-
+                        <h4>Required information</h4>
                         <hr>
+                        @include('layouts.partials.errors')
 
                         <div class="row">
                           <div class="col-sm-10">
@@ -42,16 +27,6 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <div class='form-group'>
-                              <label for='company_name'>Company Name (Optional)</label>
-                              <input type='text' name='company_name' class='form-control input-lg' value="{{ old('company_name') }}" placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
-                            </div>
-                          </div>
-                        </div>
-
                         <div class="row">
                           <div class="col-xs-12">
                             <div class="form-group">
@@ -60,16 +35,6 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="phone_number">Phone Number (Optional)</label>
-                                <input type="text" name="phone_number" class="form-control input-lg" id="phone_number" placeholder="9185551234" value="{{ old('phone_number') }}">
-                            </div>
-                          </div>
-                        </div>
-
                         <div class="row">
                           <div class="col-xs-12">
                             <div class="form-group">
@@ -78,7 +43,6 @@
                             </div>
                           </div>
                         </div>
-
                         <div class="row">
                           <div class="col-xs-12">
                             <div class="form-group">
@@ -88,6 +52,40 @@
                           </div>
                         </div>
 
+                        <h4>Not required, but will make your invoices more complete</h4>
+                        <hr>
+
+                        <div class='form-group'>
+                            <label for='logo'>Logo (Optional)</label>
+                            <br />
+                            <div class='logo-img-container'>
+                                <img id='logo_img' src='{{ old("logo") ?: "//placehold.it/200x200" }}' />
+                            </div>
+                            <br />
+                            <div class="img-error" style="display:none;">
+                                <small class="alert alert-danger img-error-message"></small>
+                            </div>
+                            <input type='file' id='_logo' style='display:none;'>
+                        </div>
+                        <input type="hidden" id='logo' name="logo" value="{{ old('logo') }}">
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class='form-group'>
+                              <label for='company_name'>Company Name (Optional)</label>
+                              <input type='text' name='company_name' class='form-control input-lg' value="{{ old('company_name') }}" placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="phone_number">Phone Number (Optional)</label>
+                                <input type="text" name="phone_number" class="form-control input-lg" id="phone_number" placeholder="9185551234" value="{{ old('phone_number') }}">
+                            </div>
+                          </div>
+                        </div>
+                        @include('layouts.partials.address_fields')
+                        <hr>
                         <button type="submit" class="btn btn-default btn-lg">Register</button> or <a href="/auth/login">Sign In</a>
                     </form>
                 </div>

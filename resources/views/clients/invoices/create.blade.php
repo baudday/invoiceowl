@@ -72,7 +72,7 @@
 
           <div class='col-xs-2'>
             <label>Unit Price</label>
-            <input type="number" name='price[]' class='form-control input-lg' min="0.00" step="0.50" max="9999.99" required>
+            <input type="text" name='price[]' class='form-control input-lg' required>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
           </div>
 
           <div class='col-xs-2'>
-            <input type="number" name='price[]' class='form-control input-lg' min="0.00" step="0.50" max="9999.99">
+            <input type="text" name='price[]' class='form-control input-lg'>
           </div>
         </div>
       </div>

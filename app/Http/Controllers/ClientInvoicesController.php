@@ -32,9 +32,9 @@ class ClientInvoicesController extends Controller
     public function create($client_id)
     {
         $client = $this->userClients()->findOrFail($client_id);
-        $invoice_number = $this->userClientInvoices($client_id)->latest()->published()->first() ? $this->userClientInvoices($client_id)->latest()->published()->first()->number+1 : 1;
+        $owl_id = $this->userClientInvoices($client_id)->latest()->published()->first() ? $this->userClientInvoices($client_id)->latest()->published()->first()->owl_id+1 : 1;
         $templates = Template::available()->get();
-        return view('clients.invoices.create', compact('client', 'invoice_number', 'templates'));
+        return view('clients.invoices.create', compact('client', 'owl_id', 'templates'));
     }
 
     /**
@@ -46,7 +46,7 @@ class ClientInvoicesController extends Controller
     public function store($client_id, Request $request)
     {
         $this->validate($request, [
-          'number' => 'required|numeric',
+          'owl_id' => 'required|numeric',
           'due_date' => 'required|date|after:yesterday',
           'description' => 'required',
           'template' => 'required'
@@ -54,7 +54,7 @@ class ClientInvoicesController extends Controller
 
         $due_date = date('Y-m-d', strtotime($request->input('due_date')));
 
-        $invoice = $this->userClientInvoices($client_id)->where($request->only('number', 'description') + ['due_date' => $due_date])->first();
+        $invoice = $this->userClientInvoices($client_id)->where($request->only('owl_id', 'description') + ['due_date' => $due_date])->first();
         $template = Template::find($invoice->template_id);
         $pdfGenerator = new PdfGenerator($template);
         $pdfGenerator->makeHtml($invoice->client, $invoice, $invoice->total);
@@ -72,8 +72,9 @@ class ClientInvoicesController extends Controller
         else {
           $user = \Auth::user();
           $client = $invoice->client;
+          $email_message = nl2br($request->input('email_message'));
 
-          \Mail::send('email.invoice', compact('user', 'client'), function ($m) use ($client, $invoice) {
+          \Mail::send('email.invoice', compact('user', 'client', 'email_message'), function ($m) use ($client, $invoice) {
             $display = 'invoice_' . date('m-d-Y', strtotime($invoice->sent_date)) . '.pdf';
             $m->attach($invoice->pdf_path, ['as' => $display]);
             $m->from(\Auth::user()->email, \Auth::user()->name);
@@ -121,7 +122,7 @@ class ClientInvoicesController extends Controller
     public function update(Request $request, $client_id, $invoice_id)
     {
         $invoice = $this->userClientInvoices($client_id)->findOrFail($invoice_id);
-        $invoice->update(array_filter($request->only('number', 'description', 'due_date', 'paid', 'published')));
+        $invoice->update(array_filter($request->only('owl_id', 'custom_id', 'description', 'due_date', 'paid', 'published')));
         return redirect()->back();
     }
 

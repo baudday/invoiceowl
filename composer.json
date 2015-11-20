@@ -10,7 +10,8 @@
         "flynsarmy/db-blade-compiler": "^2.0",
         "cloudinary/cloudinary_php": "^1.1",
         "fzaninotto/faker": "^1.5",
-        "spatie/laravel-newsletter": "^2.0"
+        "spatie/laravel-newsletter": "^2.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

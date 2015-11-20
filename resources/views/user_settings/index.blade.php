@@ -20,7 +20,7 @@
       <label for='logo'>Logo (Click to change)</label>
       <br />
       <div class='logo-img-container'>
-        <img id='logo_img' src='{{ $settings->logo }}' />
+        <img id='logo_img' src='{{ $settings->logo ?: "//placehold.it/200x200" }}' />
       </div>
       <br />
       <div class="img-error" style="display:none;">
@@ -38,28 +38,100 @@
 
       <input type="hidden" id='logo' name="logo" value="{{ $settings->logo }}">
 
-      <div class='form-group'>
-        <label for='name'>Name</label>
-        <input type='text' name='name' class='form-control input-lg' value='{{ $settings->name }}' required>
+      <div class="row">
+        <div class="col-sm-10">
+          <div class='form-group'>
+            <label for='name'>Name</label>
+            <input tabindex="1" type='text' name='name' class='form-control input-lg' value='{{ $settings->name }}' required>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class='form-group'>
+            <label for='name'>Currency</label>
+            <input tabindex="1" type='text' name='currency' class='form-control input-lg' value='{{ $settings->currency }}' required>
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-        <label for='company_name'>Company Name (Optional)</label>
-        <input type='text' name='company_name' class='form-control input-lg' value='{{ $settings->company_name }}' placeholder="Acme Corp" data-toggle="tooltip" data-placement="left" title="If set, we will use this instead of your name on invoices">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+            <label for='company_name'>Company Name (Optional)</label>
+            <input tabindex="1" type='text' name='company_name' class='form-control input-lg' value='{{ $settings->company_name }}' placeholder="Acme Corp" data-toggle="tooltip" data-placement="top" title="If set, we will use this instead of your name on invoices">
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-        <label for='email'>Email</label>
-        <input type='email' name='email' class='form-control input-lg' value='{{ $settings->email }}' disabled>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+            <label for='email'>Email</label>
+            <input tabindex="1" type='email' name='email' class='form-control input-lg' value='{{ $settings->email }}' disabled>
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-        <label for='name'>Phone Number</label>
-        <input type='text' name='phone_number' class='form-control input-lg' value='{{ $settings->phone_number }}' placeholder="9185551234">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+            <label for='name'>Phone Number</label>
+            <input tabindex="1" type='text' name='phone_number' class='form-control input-lg' value='{{ $settings->phone_number }}' placeholder="9185551234">
+          </div>
+        </div>
       </div>
 
-      <div class='form-group'>
-          <button type='submit' class='btn btn-lg btn-default'><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
+      <div class="row">
+        <div class="col-xs-12">
+          <label>Address (Optional)</label>
+          <div class="form-group">
+            <label for="line_one">Line 1</label>
+            <input tabindex="1" type="text" name="line_one" class="form-control input-lg" id="line_one" placeholder="123 Fake St." value="{{ $settings->address->line_one }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="line_two">Line 2</label>
+            <input tabindex="1" type="text" name="line_two" class="form-control input-lg" id="line_two" placeholder="Apt. 2F" value="{{ $settings->address->line_two }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input tabindex="1" type="text" name="city" class="form-control input-lg" id="city" placeholder="Tulsa" value="{{ $settings->address->city }}">
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="state">State/Province</label>
+            <input tabindex="1" type="text" name="state" class="form-control input-lg" id="state" placeholder="OK" value="{{ $settings->address->state }}">
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="zip">Zip</label>
+            <input tabindex="1" type="text" name="zip" class="form-control input-lg" id="zip" placeholder="90210" value="{{ $settings->address->zip }}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input tabindex="1" type="text" name="country" class="form-control input-lg" id="country" placeholder="United States" value="{{ $settings->address->country }}">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class='form-group'>
+              <button tabindex="1" type='submit' class='btn btn-lg btn-default'><span class="glyphicon glyphicon-floppy-save"></span> Save</button>
+          </div>
+        </div>
       </div>
 
     </form>

@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    protected $fillable = ['number', 'description', 'due_date', 'paid', 'total', 'client_id', 'user_id', 'template_id', 'published', 'pdf_path', 'sent_date'];
+    protected $fillable = ['owl_id', 'custom_id', 'description', 'due_date',
+                           'paid', 'total', 'subtotal', 'client_id', 'user_id',
+                           'template_id', 'published', 'pdf_path', 'sent_date'];
 
     public function client()
     {
@@ -18,14 +20,24 @@ class Invoice extends Model
       return $this->hasMany('\App\LineItem');
     }
 
+    public function taxItems()
+    {
+      return $this->hasMany('\App\TaxItem');
+    }
+
     public function template()
     {
       return $this->belongsTo('\App\Template');
     }
 
+    public function identifier()
+    {
+      return $this->custom_id ?: $this->owl_id;
+    }
+
     public function scopeLatest($q)
     {
-      return $q->orderBy('number', 'desc');
+      return $q->orderBy('owl_id', 'desc');
     }
 
     public function scopePublished($q)
@@ -51,5 +63,35 @@ class Invoice extends Model
     public function scopeMonth($q, $field)
     {
       return $q->where(\DB::raw("MONTH($field)"), date('n'));
+    }
+
+    public function save(array $options = [])
+    {
+      $this->subtotal = $this->calculateSubTotal();
+      $this->total = $this->calculateTotal();
+      parent::save($options);
+    }
+
+    public function getSubTotal()
+    {
+      return $this->calculateSubTotal();
+    }
+
+    private function calculateSubTotal()
+    {
+      $subtotal = 0;
+      foreach ($this->lineItems()->get() as $item) {
+        $subtotal += $item->totalPrice();
+      }
+      return $subtotal;
+    }
+
+    private function calculateTotal()
+    {
+      $total = $this->subtotal;
+      foreach ($this->taxItems()->get() as $item) {
+        $total += $item->totalPrice();
+      }
+      return $total;
     }
 }

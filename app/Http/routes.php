@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard'], function() {
 
 // API Routes
 Route::group(['prefix' => 'api/v1'], function() {
+  Route::resource('users', 'Api\V1\UsersController', ['only' => ['update']]);
   Route::group(['middleware' => 'auth'], function() {
     Route::resource('clients.templates', 'Api\V1\ClientTemplatesController', ['only' => ['show']]);
     Route::resource('settings', 'Api\V1\UserSettingsController', ['only' => ['update']]);
@@ -74,24 +75,28 @@ Route::group(['prefix' => 'api/v1'], function() {
 // Some debug routes
 if (getenv('APP_ENV') == 'local') {
     Route::post('/email/{id}', 'AdminController@debugEmail');
-    Route::get('/template', function() {
+    Route::get('/template/{id}', function($template_id) {
+
+      $composer = new App\Lib\TemplateComposer(App\Template::find($template_id));
+      $composer->compose();
 
       $invoice = \App\Invoice::with('lineItems', 'client')->where('published', true)->first();
       $client = $invoice->client;
-      $template = \App\Template::find($invoice->template_id);
+      $template = \App\Template::find($template_id);
 
-      $total = $invoice->total;
-      $lineItems = $invoice->lineItems;
-
-      return view('templates/stub', compact('invoice', 'client', 'total', 'lineItems'));
+      return DbView::make($template)
+                ->field('html')
+                ->with(compact('client', 'invoice'))
+                ->render();
     });
 
     Route::get('/invoice/email', function() {
       $user = \Auth::user();
       $invoice = \App\Invoice::with('client')->where('published', true)->first();
       $client = $invoice->client;
+      $message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu pharetra ex, eu viverra tortor. Quisque sed felis odio. Nam a dictum ex. Vestibulum convallis at risus at faucibus.";
 
-      return view('email/invoice', compact('user', 'invoice', 'client'));
+      return view('email/invoice', compact('user', 'invoice', 'client', 'message'));
     });
 
     Route::get('/invite', function() {

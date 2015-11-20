@@ -45,7 +45,7 @@
           <div class="panel-body">
             <h3>Collected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($month['collected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($month['collected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
           <div class="panel-body">
             <h3>Uncollected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -116,7 +116,7 @@
           <div class="panel-body">
             <h3>Collected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($all_time['collected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($all_time['collected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
           <div class="panel-body">
             <h3>Uncollected</h3>
             <hr>
-            <h1>$<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
+            <h1>{{ \Auth::user()->currency }}<span class="money">{{ number_format($all_time['uncollected'], 2) }}</span></h1>
           </div>
         </div>
       </div>
@@ -175,7 +175,7 @@
           <td class="vcenter"><a href="{{ route('dashboard.clients.show', $invoice->client->id) }}">{{ $invoice->client->name }}</a></td>
           <td class="vcenter">{{ $invoice->description }}</td>
           <td class="vcenter">{{ date('F d, Y', strtotime($invoice->due_date)) }}</td>
-          <td class="vcenter">{{ $invoice->total }}</td>
+          <td class="vcenter">{{ \Auth::user()->currency }}{{ $invoice->total }}</td>
           <td class="vcenter">
             @include('invoices.partials.actions')
           </td>

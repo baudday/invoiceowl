@@ -23,12 +23,17 @@
 
       <div class='row'>
         <div class='form-group'>
-          <div class='col-sm-4'>
-            <label for='number'>#</label>
-            <input id="number" name='number' type='text' class='form-control input-lg' placeholder='1' value="{{ $invoice_number }}" readonly="readonly" required>
+          <div class='col-sm-3'>
+            <label for='owl_id'>Owl ID</label>
+            <input id="owl_id" name='owl_id' type='text' class='form-control input-lg' placeholder='1' value="{{ $owl_id }}" readonly="readonly" required>
           </div>
 
-          <div class='col-sm-8'>
+          <div class='col-sm-3'>
+            <label for='custom_id'>Custom ID</label>
+            <input id="custom_id" name='custom_id' type='text' class='form-control input-lg' value="{{ old('custom_id') }}" data-toggle="tooltip" data-placement="top" title="If set, we will use this instead of the Owl ID on invoices">
+          </div>
+
+          <div class='col-sm-6'>
             <label for='due_date'>Due Date</label>
             <input id="due_date" type='date' name='due_date' class='form-control input-lg' value="{{ old('due_date') }}" required>
           </div>
@@ -55,19 +60,19 @@
 
       <div class='row'>
         <div class='form-group'>
-          <div class='col-sm-8'>
+          <div class='col-xs-8'>
             <label>Item Description</label>
             <input name='item[]' type='text' class='form-control input-lg' required>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <label>Qty</label>
             <input type='number' name='quantity[]' class='form-control input-lg' required>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <label>Unit Price</label>
-            <input type="number" name='price[]' class='form-control input-lg' min="0.00" step="0.50" max="9999.99" required>
+            <input type="text" name='price[]' class='form-control input-lg' required>
           </div>
         </div>
       </div>
@@ -75,16 +80,53 @@
       @for($i = 0; $i < 3; $i++)
       <div class='row'>
         <div class='form-group'>
-          <div class='col-sm-8'>
+          <div class='col-xs-8'>
             <input name='item[]' type='text' class='form-control input-lg'>
           </div>
 
-          <div class='col-sm-2'>
+          <div class='col-xs-2'>
             <input type='number' name='quantity[]' class='form-control input-lg'>
           </div>
 
-          <div class='col-sm-2'>
-            <input type="number" name='price[]' class='form-control input-lg' min="0.00" step="0.50" max="9999.99">
+          <div class='col-xs-2'>
+            <input type="text" name='price[]' class='form-control input-lg'>
+          </div>
+        </div>
+      </div>
+      @endfor
+
+      <div class='row'>
+        <div class='form-group'>
+          <div class='col-xs-12'>
+            <h3>Taxes (optional)</h3>
+            <hr>
+          </div>
+        </div>
+      </div>
+
+      <div class='row'>
+        <div class='form-group'>
+          <div class='col-xs-10'>
+            <label>Type</label>
+            <input name='tax[]' type='text' class='form-control input-lg' placeholder="Sales">
+          </div>
+
+          <div class='col-xs-2'>
+            <label>Percent</label>
+            <input type='text' name='percent[]' class='form-control input-lg' placeholder="7.5">
+          </div>
+        </div>
+      </div>
+
+      @for($i = 0; $i < 2; $i++)
+      <div class='row'>
+        <div class='form-group'>
+          <div class='col-xs-10'>
+            <input name='tax[]' type='text' class='form-control input-lg' placeholder="Sales">
+          </div>
+
+          <div class='col-xs-2'>
+            <input type='text' name='percent[]' class='form-control input-lg' placeholder="7.5">
           </div>
         </div>
       </div>
@@ -131,6 +173,16 @@
 
 <div class='row'>
   <div class='form-group'>
+    <div class='col-sm-12'>
+      <label for='email_message'>Email Message</label>
+      <textarea rows="5" id="email_message" name='email_message' class='form-control input-lg' placeholder='Include a custom message in the email body...' required>{{ old('email_message') }}</textarea>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='form-group'>
     <div class='col-xs-12'>
       <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="send" onclick="updateInvoice()"><span class='glyphicon glyphicon-send'></span> Send to {{ $client->email }}</button>
       <button name="submit_action" type='submit' class='btn btn-lg btn-default' value="download" onclick="updateInvoice()"><span class='glyphicon glyphicon-download'></span> Download</button>
@@ -146,6 +198,8 @@
   var invoice_id = 0;
   var template_id = 0;
   $(function() {
+
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('.template').on('click', function() {
       template_id = $(this).data('template');
@@ -184,13 +238,16 @@
 
   function getData() {
     return {
-      'number': $('#number').val(),
+      'owl_id': $('#owl_id').val(),
+      'custom_id': $('#custom_id').val(),
       'due_date': $('#due_date').val(),
       'description': $('#description').val(),
       'invoice_id': invoice_id,
       'items': $("input[name='item\\[\\]']").map(function(){return $(this).val();}).get(),
       'quantities': $("input[name='quantity\\[\\]']").map(function(){return $(this).val();}).get(),
-      'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get()
+      'prices': $("input[name='price\\[\\]']").map(function(){return $(this).val();}).get(),
+      'taxes': $("input[name='tax\\[\\]']").map(function(){return $(this).val();}).get(),
+      'percentages': $("input[name='percent\\[\\]']").map(function(){return $(this).val();}).get()
     };
   }
 </script>
